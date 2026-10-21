@@ -29,9 +29,11 @@ code/
   run_dp_audit.py      exact planning results          -> results/dp_audit.json
   run_experiments.py   every learner x reward x layout  -> results/runs/*.json
   analyze.py           tables and figures for the report -> results/tables, results/figures
+  export_replays.py    replays + details for the 3D viewer -> results/replays
 notebooks/             four executed notebooks that walk through the whole study
 tests/test_core.py     model-vs-simulator, PBRS invariance, VI/PI, exact-vs-simulated checks
 report/                IEEE-format LaTeX source and PDF
+viewer/index.html      3D replay viewer (Three.js, no build step)
 results/               every number in the report (JSON/CSV), and the figures
 ```
 
@@ -45,6 +47,17 @@ results/               every number in the report (JSON/CSV), and the figures
 | `04_why_learners_fall_short` | optimism left in the Q-tables, shaping = initialisation shown live, the initial-value study and its mechanism, DQN |
 
 Each notebook imports the code in `code/` and is stored with its outputs.
+
+## 3D replay viewer (demo)
+
+`viewer/index.html` shows each agent driving the robot through the same held-out 200-step episode, in 3D, in any of the ten store layouts: the exact optimum, the nine learners (Proposal reward), and Q-Learning / SARSA(λ) started from Q₀ = −150. Shelves change colour and height with their stock, the robot carries its crates, and the HUD tracks the objective step by step. **Results & details** (or `R`) opens a panel with that agent's exact results on every layout, its update rule, configuration and the report figures.
+
+```bash
+python -m http.server 8000          # from the repository root
+# open http://localhost:8000/viewer/
+```
+
+Space plays/pauses, ← → step, the slider scrubs, the speed menu goes up to 4×. URL options: `?layout=4&algo=qlearning_q150`. Three.js loads from a CDN, so the page needs internet access once. The replays are written by `python code/export_replays.py` from the policies stored in `results/runs/`; nothing is retrained.
 
 ## Reproducing the results
 
@@ -66,6 +79,7 @@ python run_experiments.py --algos dqn double_dqn --rewards objective --q-init -1
 python run_experiments.py --algos dqn qlearning sarsa nstep_sarsa sarsa_lambda \
     --rewards objective_restock objective_closer    # one proposal term at a time
 python analyze.py                         # tables + figures
+python export_replays.py                  # replays for the 3D viewer
 ```
 
 Runs are seeded (layout seed = training seed), so re-running reproduces the stored JSON files. A run whose output file exists is skipped, so an interrupted grid resumes where it stopped.

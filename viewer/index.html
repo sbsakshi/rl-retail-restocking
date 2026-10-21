@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Restocking Replay Viewer</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<!--
+  3D replay viewer for the RL shelf-restocking robot.
+  Shows each trained agent (and the exact optimum) driving the robot through the
+  same held-out 200-step episode in any of the ten store layouts.
+  Reads ../results/replays/index.json, <agent>__L<layout>.json and details.json
+  at runtime (written by code/export_replays.py). No build step.
+
+  Serve from the rl_restocking_robot/ folder (fetch() of local JSON is blocked
+  on file:// in Chrome/Edge):
+      python -m http.server 8000
+  then open http://localhost:8000/viewer/
+
+  URL params: ?algo=<agent>      preselect an agent (e.g. dqn, qlearning_q150)
+              ?layout=<0-9>      preselect a store layout
+              ?autotest=1        load + play through every replay headlessly and
+                                 report the result in the page title (sanity check)
+-->
+<style>
+  :root {
+    --bg: #14171c;
+    --panel: rgba(22, 26, 32, 0.88);
+    --border: rgba(255, 255, 255, 0.10);
+    --text: #e8eaed;
+    --muted: #9aa3ad;
+    --accent: #5aa9ff;
+    --good: #3fb950;
+    --bad: #f85149;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); color: var(--text);
+    font: 14px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  #scene { position: fixed; inset: 0; }
+  .panel { position: fixed; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 10px; backdrop-filter: blur(6px); }
+
+  #hud { top: 16px; left: 16px; padding: 12px 16px; min-width: 250px; }
+  #hud h1 { margin: 0 0 8px; font-size: 15px; font-weight: 600; }
+  #hud dl { display: grid; grid-template-columns: auto 1fr; gap: 3px 14px; margin: 0; }
+  #hud dt { color: var(--muted); }
+  #hud dd { margin: 0; font-variant-numeric: tabular-nums; text-align: right; }
+  #hud .restock { color: var(--good); font-weight: 600; }
+  #hud .neg { color: var(--bad); }
+  #hud .foot { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border);
+    color: var(--muted); font-size: 12px; }
+
+  #legend { top: 16px; right: 16px; padding: 10px 14px; font-size: 12px; color: var(--muted); }
+  #legend .bar { width: 160px; height: 10px; border-radius: 5px; margin: 6px 0 3px;
+    background: linear-gradient(to right, hsl(0,75%,50%), hsl(60,75%,50%), hsl(120,75%,42%)); }
+  #legend .ends { display: flex; justify-content: space-between; }
+  #legend .row { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+  #legend .sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
+  #controls { left: 16px; right: 16px; bottom: 16px; padding: 10px 14px;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  #controls select, #controls button { background: #232830; color: var(--text);
+    border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; font: inherit; cursor: pointer; }
+  #controls button:hover, #controls select:hover { border-color: var(--accent); }
+  #play { min-width: 76px; }
+  #scrub { flex: 1; min-width: 160px; accent-color: var(--accent); }
+  #stepLabel { font-variant-numeric: tabular-nums; color: var(--muted); min-width: 80px; text-align: right; }
+
+  #msg { top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 18px 22px;
+    max-width: min(520px, calc(100vw - 32px)); display: none; }
+  #msg code { background: #0d1014; padding: 2px 6px; border-radius: 4px; }
+
+  #detailsBtn { border-color: var(--accent) !important; color: var(--accent) !important; }
+  #detailsBtn[aria-expanded="true"] { background: var(--accent) !important; color: #0d1014 !important; }
+
+  /* ---------- Results & details drawer ---------- */
+  #details { top: 16px; right: 16px; bottom: 76px; width: min(520px, calc(100vw - 32px));
+    overflow-y: auto; padding: 18px 20px 22px; z-index: 5; background: rgba(22, 26, 32, 0.97); }
+  #details[hidden] { display: none; }
+  #details header { display: flex; align-items: flex-start; gap: 12px; }
+  #details h2 { margin: 0; font-size: 18px; flex: 1; }
+  #details h3 { margin: 22px 0 8px; font-size: 12px; font-weight: 600; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.06em; }
+  #details .family { display: inline-block; margin-top: 4px; font-size: 12px; color: var(--accent); }
+  #details p { margin: 8px 0; color: #cdd2d8; }
+  #details .close { background: none; border: 1px solid var(--border); color: var(--text);
+    border-radius: 6px; width: 30px; height: 30px; font-size: 16px; cursor: pointer; flex: none; }
+  #details .close:hover { border-color: var(--accent); }
+  .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .metric { background: #1c2129; border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
+  .metric .k { font-size: 11px; color: var(--muted); }
+  .metric .v { font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .metric .s { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .metric.best { border-color: var(--good); }
+  .metric.best .k::after { content: " · best"; color: var(--good); }
+  .rank { margin-top: 8px; font-size: 12px; color: var(--muted); }
+  table.kv, table.seeds { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.kv td, table.seeds td, table.seeds th { padding: 5px 6px; border-bottom: 1px solid var(--border);
+    vertical-align: top; text-align: left; }
+  table.kv td:first-child { color: var(--muted); width: 38%; }
+  table.seeds th { color: var(--muted); font-weight: 500; font-size: 12px; }
+  table.seeds td.n, table.seeds th.n { text-align: right; font-variant-numeric: tabular-nums; }
+  table.seeds tr.replayed td { color: var(--accent); }
+  .rule { background: #0d1014; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px;
+    font: 13px/1.5 ui-monospace, Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+  #details ul { margin: 6px 0; padding-left: 18px; color: #cdd2d8; }
+  #details li { margin: 4px 0; }
+  #details .note { font-size: 12px; color: var(--muted); margin: 6px 0 0; }
+  #details summary { cursor: pointer; color: var(--muted); font-size: 13px; margin-top: 18px; }
+  .figs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .fig { margin: 0; background: #1c2129; border: 1px solid var(--border); border-radius: 8px;
+    overflow: hidden; cursor: zoom-in; }
+  .fig:hover { border-color: var(--accent); }
+  .fig img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: contain; background: #fff; }
+  .fig figcaption { padding: 6px 8px; font-size: 11.5px; line-height: 1.35; color: var(--muted); }
+  .fig.broken img { display: none; }
+  .fig.broken figcaption::before { content: "Image missing: "; color: var(--bad); }
+
+  #lightbox { position: fixed; inset: 0; z-index: 10; background: rgba(8, 10, 13, 0.92);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 24px; gap: 12px; cursor: zoom-out; }
+  #lightbox[hidden] { display: none; }
+  #lightbox img { max-width: 100%; max-height: calc(100vh - 110px); background: #fff; border-radius: 6px; }
+  #lightbox p { margin: 0; max-width: 900px; text-align: center; color: var(--muted); }
+
+  @media (max-width: 640px) {
+    #legend { display: none; }
+    #hud { min-width: 0; right: 16px; font-size: 13px; }
+    #details { top: 8px; right: 8px; left: 8px; width: auto; bottom: 120px; }
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+    .figs { grid-template-columns: 1fr; }
+  }
+</style>
+<script type="importmap">
+{ "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="scene"></div>
+
+<div id="hud" class="panel">
+  <h1 id="algoTitle">Loading…</h1>
+  <dl>
+    <dt>Step</dt><dd id="hStep">–</dd>
+    <dt>Cumulative objective</dt><dd id="hCum">–</dd>
+    <dt>Last action</dt><dd id="hAction">–</dd>
+    <dt>Step objective</dt><dd id="hReward">–</dd>
+    <dt>Carried</dt><dd id="hCarried">–</dd>
+    <dt>Restocked</dt><dd id="hRestock">–</dd>
+    <dt>Stock</dt><dd id="hStock">–</dd>
+  </dl>
+  <div class="foot" id="hFoot"></div>
+</div>
+
+<div id="legend" class="panel">
+  Shelf stock level
+  <div class="bar"></div>
+  <div class="ends"><span>0 (stockout)</span><span>full</span></div>
+  <div class="row"><span class="sw" style="background:#3b82c4"></span>Depot (refill)</div>
+  <div class="row"><span class="sw" style="background:#e8eaed"></span>Robot</div>
+</div>
+
+<div id="controls" class="panel">
+  <select id="layout" aria-label="Store layout"></select>
+  <select id="algo" aria-label="Algorithm"></select>
+  <button id="prev" title="Previous step (←)">◀</button>
+  <button id="play" title="Play / pause (space)">▶ Play</button>
+  <button id="next" title="Next step (→)">▶|</button>
+  <input id="scrub" type="range" min="0" max="0" value="0" aria-label="Step">
+  <span id="stepLabel">0 / 0</span>
+  <select id="speed" aria-label="Playback speed">
+    <option value="0.5">0.5×</option>
+    <option value="1" selected>1×</option>
+    <option value="2">2×</option>
+    <option value="4">4×</option>
+  </select>
+  <button id="detailsBtn" aria-expanded="false" aria-controls="details" title="Results & details (R)">Results &amp; details</button>
+</div>
+
+<aside id="details" class="panel" hidden aria-label="Results and details"></aside>
+<div id="lightbox" hidden><img alt=""><p></p></div>
+
+<div id="msg" class="panel"></div>
+
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+const REPLAY_DIR = "../results/replays/";
+const STEP_MS = 400;              // tween duration per step at 1x
+const params = new URLSearchParams(location.search);
+const AUTOTEST = params.has("autotest");
+
+// ---------- single color scale shared by every algorithm ----------
+// frac = stock / stock_max: 0 -> red, 0.5 -> yellow, 1 -> green
+function stockColor(frac) {
+  const f = Math.min(1, Math.max(0, frac));
+  return new THREE.Color().setHSL((f * 120) / 360, 0.75, f > 0.5 ? 0.50 - (f - 0.5) * 0.16 : 0.50);
+}
+
+// ---------- scene ----------
+const container = document.getElementById("scene");
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.shadowMap.enabled = true;
+container.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x14171c);
+const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.1, 200);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.maxPolarAngle = Math.PI / 2.05;
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0x2a2f38, 1.1));
+const sun = new THREE.DirectionalLight(0xffffff, 1.6);
+sun.position.set(6, 10, 4);
+sun.castShadow = true;
+sun.shadow.mapSize.set(1024, 1024);
+Object.assign(sun.shadow.camera, { left: -8, right: 8, top: 8, bottom: -8 });
+scene.add(sun);
+
+const world = new THREE.Group();   // rebuilt whenever the layout changes
+scene.add(world);
+
+// robot: capsule body + a "visor" so its heading reads, plus carried crates
+const robot = new THREE.Group();
+const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.22, 0.35, 6, 16),
+  new THREE.MeshStandardMaterial({ color: 0xe8eaed, roughness: 0.4, metalness: 0.2 }));
+body.position.y = 0.42; body.castShadow = true;
+const visor = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.08, 0.06),
+  new THREE.MeshStandardMaterial({ color: 0x5aa9ff, emissive: 0x2266aa }));
+visor.position.set(0, 0.62, 0.2);
+robot.add(body, visor);
+const crates = [];
+for (let i = 0; i < 4; i++) {
+  const c = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.12, 0.16),
+    new THREE.MeshStandardMaterial({ color: 0xc8924a, roughness: 0.8 }));
+  c.position.set(0, 0.95 + i * 0.13, 0); c.castShadow = true;
+  robot.add(c); crates.push(c);
+}
+scene.add(robot);
+
+let shelves = {};          // id -> { mesh, mat, label, labelCtx, labelTex, pulse }
+let layoutKey = "";
+
+function gridToWorld([x, y], w, h) {
+  // grid x -> world x, grid y -> world z (row 0 at the back), floor centered on origin
+  return new THREE.Vector3(x - (w - 1) / 2, 0, y - (h - 1) / 2);
+}
+
+function makeLabel() {
+  const canvas = document.createElement("canvas");
+  canvas.width = 256; canvas.height = 128;
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthTest: false }));
+  sprite.scale.set(0.9, 0.45, 1);
+  return { sprite, ctx: canvas.getContext("2d"), tex };
+}
+
+function drawLabel(l, title, sub) {
+  if (l.text === title + sub) return;   // skip redundant texture re-uploads
+  l.text = title + sub;
+  const { ctx } = l;
+  ctx.clearRect(0, 0, 256, 128);
+  ctx.fillStyle = "rgba(20,23,28,0.82)";
+  ctx.beginPath(); ctx.roundRect(8, 8, 240, 112, 18); ctx.fill();
+  ctx.fillStyle = "#e8eaed"; ctx.textAlign = "center";
+  ctx.font = "bold 44px system-ui, sans-serif"; ctx.fillText(title, 128, 58);
+  ctx.fillStyle = "#9aa3ad"; ctx.font = "34px system-ui, sans-serif"; ctx.fillText(sub, 128, 102);
+  l.tex.needsUpdate = true;
+}
+
+function buildLayout(rep) {
+  const key = JSON.stringify([rep.grid_size, rep.depot_pos, rep.shelf_positions]);
+  if (key === layoutKey) return;
+  layoutKey = key;
+  world.clear();
+  shelves = {};
+  const [w, h] = rep.grid_size;
+
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(w, h),
+    new THREE.MeshStandardMaterial({ color: 0x2a2f38, roughness: 0.95 }));
+  floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true;
+  world.add(floor);
+  const grid = new THREE.GridHelper(Math.max(w, h), Math.max(w, h), 0x4a525e, 0x4a525e);
+  grid.position.y = 0.002;
+  grid.scale.set(w / Math.max(w, h), 1, h / Math.max(w, h));
+  world.add(grid);
+
+  if (rep.depot_pos) {
+    const d = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.04, 0.9),
+      new THREE.MeshStandardMaterial({ color: 0x3b82c4, roughness: 0.6 }));
+    d.position.copy(gridToWorld(rep.depot_pos, w, h)).setY(0.02);
+    d.receiveShadow = true;
+    world.add(d);
+    const l = makeLabel(); drawLabel(l, "DEPOT", "refill");
+    l.sprite.position.copy(d.position).setY(0.45);
+    world.add(l.sprite);
+  }
+
+  for (const [id, pos] of Object.entries(rep.shelf_positions)) {
+    const mat = new THREE.MeshStandardMaterial({ color: stockColor(1), roughness: 0.5 });
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(0.8, 1, 0.8), mat);
+    mesh.castShadow = true; mesh.receiveShadow = true;
+    const base = gridToWorld(pos, w, h);
+    mesh.position.copy(base);
+    const label = makeLabel();
+    label.sprite.position.copy(base).setY(1.55);
+    world.add(mesh, label.sprite);
+    shelves[id] = { mesh, mat, label, base, pulse: 0 };
+  }
+
+  const span = Math.max(w, h);
+  camera.position.set(span * 0.55, span * 1.25, span * 1.35);
+  controls.target.set(0, 0, 0);
+  controls.update();
+}
+
+// ---------- replay state ----------
+let rep = null;          // current replay JSON
+let cum = [];            // cumulative reward prefix sums
+let step = 0;
+let playing = false;
+let speed = 1;
+let tween = null;        // { from, to, start, dur }
+let playTimer = 0;
+let loadToken = 0;
+
+const $ = (id) => document.getElementById(id);
+const ui = { algo: $("algo"), layout: $("layout"), play: $("play"), scrub: $("scrub"), stepLabel: $("stepLabel"), speed: $("speed") };
+let allEntries = [];   // full manifest, unfiltered -- entries filtered by SKU count into ui.algo
+
+function robotWorldPos(i) {
+  const [w, h] = rep.grid_size;
+  return gridToWorld(rep.steps[i].robot_pos, w, h);
+}
+
+function fmt(n) { return (n >= 0 ? "+" : "") + n.toFixed(1); }
+
+function setStep(i, { animate = false } = {}) {
+  if (!rep) return;
+  i = Math.max(0, Math.min(rep.steps.length - 1, i));
+  const prev = step;
+  step = i;
+  const s = rep.steps[i];
+
+  // robot: tween one step, snap on jumps (scrubbing / algorithm switch)
+  const target = robotWorldPos(i);
+  if (animate && Math.abs(i - prev) === 1) {
+    tween = { from: robot.position.clone(), to: target, start: performance.now(), dur: STEP_MS / speed };
+    const d = target.clone().sub(robot.position);
+    if (d.lengthSq() > 1e-6) robot.rotation.y = Math.atan2(d.x, d.z);
+  } else {
+    tween = null;
+    robot.position.copy(target);
+  }
+  crates.forEach((c, k) => { c.visible = k < (s.carried ?? 0); });
+
+  // shelves: color + height by stock fraction, pulse on restock
+  for (const [id, sh] of Object.entries(shelves)) {
+    const v = s.stock_levels[id] ?? 0;
+    const frac = v / rep.stock_max;
+    sh.mat.color.copy(stockColor(frac));
+    sh.mat.emissive.copy(v === 0 ? new THREE.Color(0x551010) : new THREE.Color(0x000000));
+    const hgt = 0.25 + 0.75 * frac;
+    sh.mesh.scale.set(1, hgt, 1);
+    sh.mesh.position.y = hgt / 2;
+    sh.label.sprite.position.y = hgt + 0.45;
+    drawLabel(sh.label, id, `${v} / ${rep.stock_max}`);
+    sh.pulse = (s.restocked_shelf === id && animate) ? 1 : 0;
+  }
+
+  // HUD
+  $("hStep").textContent = `${s.t} / ${rep.steps[rep.steps.length - 1].t}`;
+  const c = cum[i];
+  $("hCum").textContent = fmt(c);
+  $("hCum").className = c < 0 ? "neg" : "";
+  $("hAction").textContent = s.action ?? "— (start)";
+  $("hReward").textContent = s.action ? fmt(s.reward) : "–";
+  $("hCarried").textContent = `${s.carried ?? "?"} / ${rep.carry_capacity ?? "?"}`;
+  $("hRestock").textContent = s.restocked_shelf ?? "—";
+  $("hRestock").className = s.restocked_shelf ? "restock" : "";
+  $("hStock").textContent = Object.entries(s.stock_levels).map(([k, v]) => `${k}:${v}`).join("  ");
+  ui.scrub.value = i;
+  ui.stepLabel.textContent = `${i} / ${rep.steps.length - 1}`;
+}
+
+function setPlaying(p) {
+  playing = p && !!rep;
+  if (playing && step >= rep.steps.length - 1) setStep(0);
+  ui.play.textContent = playing ? "❚❚ Pause" : "▶ Play";
+  playTimer = performance.now();
+}
+
+function showMsg(html) { const m = $("msg"); m.innerHTML = html; m.style.display = html ? "block" : "none"; }
+
+async function fetchJSON(url) {
+  const r = await fetch(url, { cache: "no-cache" });
+  if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`);
+  return r.json();
+}
+
+async function loadReplay(file) {
+  const token = ++loadToken;
+  const data = await fetchJSON(REPLAY_DIR + file);
+  if (token !== loadToken) return;     // a newer selection won
+  rep = data;
+  cum = []; let acc = 0;
+  for (const s of rep.steps) { acc += s.action ? s.reward : 0; cum.push(acc); }
+  buildLayout(rep);
+  ui.scrub.max = rep.steps.length - 1;
+  $("algoTitle").textContent = rep.label ?? rep.algorithm;
+  $("hFoot").textContent = `Store ${rep.layout} · demand seed ${rep.episode_seed} · this episode ${fmt(rep.episode_return ?? acc)}`
+    + (rep.eval_mean_return != null ? ` · expected ${fmt(rep.eval_mean_return)} · score ${rep.score.toFixed(2)}` : "");
+  step = 0;
+  setStep(0);
+  showMsg("");
+  if (!detailsEl.hidden) await renderDetails();
+}
+
+// ---------- Results & details panel ----------
+// Data: ../results/replays/details.json (code/export_replays.py): exact results of
+// every agent on every layout, its configuration, and the report figures.
+const PROJECT_ROOT = "../";
+const detailsEl = $("details");
+const lightbox = $("lightbox");
+let detailsCache = null;
+
+const esc = (v) => String(v).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+async function loadDetailsData() {
+  if (!detailsCache) detailsCache = await fetchJSON(REPLAY_DIR + "details.json").catch(() => null);
+  return detailsCache;
+}
+
+const METRICS = [
+  // key, label, higher is better?, digits
+  ["score", "Normalised score", true, 2],
+  ["service_level", "Service level", true, 3],
+  ["distance", "Travel (moves)", false, 0],
+  ["stockout_duration", "Mean stockout (steps)", false, 1],
+  ["objective", "Expected objective", true, 0],
+  ["agree_opt_states", "P(optimal action)", true, 2],
+];
+const mean = (xs) => xs.reduce((a, b) => a + b, 0) / xs.length;
+
+function metricCards(m, methods) {
+  const here = m.layouts[rep.layout];
+  const cards = METRICS.map(([k, label, hi, d]) => {
+    const avg = mean(m.layouts.map((l) => l[k]));
+    const others = Object.values(methods).filter((o) => o !== methods.dp_optimum).map((o) => mean(o.layouts.map((l) => l[k])));
+    const best = m !== methods.dp_optimum && avg === (hi ? Math.max(...others) : Math.min(...others));
+    return `<div class="metric${best ? " best" : ""}"><div class="k">${esc(label)}</div>
+      <div class="v">${here[k].toFixed(d)}</div><div class="s">this store · mean of 10: ${avg.toFixed(d)}</div></div>`;
+  });
+  const learners = Object.entries(methods).filter(([k]) => k !== "dp_optimum");
+  const rank = 1 + learners.filter(([, o]) => mean(o.layouts.map((l) => l.score)) > mean(m.layouts.map((l) => l.score))).length;
+  return `<div class="metrics">${cards.join("")}</div>
+    <div class="rank">${m === methods.dp_optimum ? "Reference policy (not ranked)" : `Rank #${rank} of ${learners.length} learners by mean score`}
+    · exact expected values over a 200-step episode · a green "best" tag marks the top learner on that metric's 10-store mean</div>`;
+}
+
+function layoutTable(m) {
+  return `<table class="seeds"><tr><th>Store</th><th class="n">Score</th><th class="n">Service</th><th class="n">Travel</th></tr>
+    ${m.layouts.map((l, i) => `<tr class="${i === rep.layout ? "replayed" : ""}"><td>${i}${i === rep.layout ? " · shown" : ""}</td>
+      <td class="n">${l.score.toFixed(3)}</td><td class="n">${l.service_level.toFixed(3)}</td>
+      <td class="n">${l.distance.toFixed(0)}</td></tr>`).join("")}</table>`;
+}
+
+function replayStats() {
+  const st = rep.steps.slice(1);
+  const restocks = st.filter((s) => s.restocked_shelf).length;
+  const empty = st.reduce((a, s) => a + Object.values(s.stock_levels).filter((v) => v === 0).length, 0);
+  const counts = {};
+  for (const s of st) counts[s.action] = (counts[s.action] ?? 0) + 1;
+  const top = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 3)
+    .map(([a, c]) => `${a} ×${c}`).join(", ");
+  const nShelves = Object.keys(rep.shelf_positions).length;
+  return [
+    ["Objective, this episode", fmt(rep.episode_return)],
+    ["Objective, expected (exact)", fmt(rep.eval_mean_return)],
+    ["Successful restocks", restocks],
+    ["Empty-shelf steps", `${empty} of ${st.length * nShelves} shelf-steps`],
+    ["Most-used actions", top],
+    ["Episode", `demand seed ${rep.episode_seed}, never used in training; the same for every agent in this store`],
+  ];
+}
+
+const kvTable = (pairs) => `<table class="kv">${pairs.map(([k, v]) =>
+  `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join("")}</table>`;
+
+async function renderDetails() {
+  if (!rep) return;
+  const details = await loadDetailsData();
+  const m = details?.methods?.[rep.algorithm];
+  const title = `<header><div><h2>${esc(rep.label ?? rep.algorithm)}</h2>
+    ${m ? `<span class="family">${esc(m.family)}</span>` : ""}</div>
+    <button class="close" title="Close (Esc)" aria-label="Close">✕</button></header>`;
+  if (!m) {
+    detailsEl.innerHTML = title + `<p>No details found for <code>${esc(rep.algorithm)}</code>.
+      Run <code>python export_replays.py</code> in <code>code/</code>.</p><h3>This replay</h3>${kvTable(replayStats())}`;
+    return;
+  }
+  detailsEl.innerHTML = `${title}
+    <p>${esc(m.summary)}</p>
+    <h3>Results (store ${rep.layout})</h3>${metricCards(m, details.methods)}
+    <h3>This replay</h3>${kvTable(replayStats())}
+    <p class="note">One episode is one draw of random demand, so a single replay can beat or trail the
+      expected value; the report scores every agent by its exact expected value.</p>
+    <h3>All ten stores</h3>${layoutTable(m)}
+    <h3>How it works</h3><div class="rule">${esc(m.update_rule)}</div>
+    <h3>Configuration</h3>${kvTable(m.config)}
+    <details><summary>Shared environment &amp; evaluation setup</summary>${kvTable(details.environment ?? [])}</details>
+    <h3>Figures from the report (${m.figures.length})</h3>
+    <div class="figs">${m.figures.map((f) => `<figure class="fig" tabindex="0" data-src="${esc(PROJECT_ROOT + f.src)}"
+      data-caption="${esc(f.caption)}"><img loading="lazy" src="${esc(PROJECT_ROOT + f.src)}" alt="${esc(f.caption)}">
+      <figcaption>${esc(f.caption)}</figcaption></figure>`).join("")}</div>`;
+  detailsEl.querySelectorAll(".fig img").forEach((img) =>
+    img.addEventListener("error", () => img.closest(".fig").classList.add("broken")));
+}
+
+// Keep the drawer above the (possibly wrapped) control bar, and on wide screens slide the
+// 3D view left so the store stays visible between the HUD and the drawer.
+function layoutForDetails() {
+  detailsEl.style.bottom = `${$("controls").offsetHeight + 24}px`;
+  const covered = detailsEl.hidden ? 0 : detailsEl.offsetWidth + 16;
+  if (covered && innerWidth - covered >= 420) {
+    camera.setViewOffset(innerWidth, innerHeight, covered * 0.4, 0, innerWidth, innerHeight);
+  } else {
+    camera.clearViewOffset();
+  }
+}
+
+async function setDetailsOpen(open) {
+  detailsEl.hidden = !open;
+  $("detailsBtn").setAttribute("aria-expanded", String(open));
+  $("legend").style.visibility = open ? "hidden" : "";
+  layoutForDetails();
+  if (open) await renderDetails();
+}
+
+function openLightbox(src, caption) {
+  lightbox.querySelector("img").src = src;
+  lightbox.querySelector("img").alt = caption;
+  lightbox.querySelector("p").textContent = caption;
+  lightbox.hidden = false;
+}
+
+$("detailsBtn").addEventListener("click", () => setDetailsOpen(detailsEl.hidden));
+detailsEl.addEventListener("click", (e) => {
+  if (e.target.closest(".close")) return setDetailsOpen(false);
+  const fig = e.target.closest(".fig");
+  if (fig && !fig.classList.contains("broken")) openLightbox(fig.dataset.src, fig.dataset.caption);
+});
+detailsEl.addEventListener("keydown", (e) => {
+  const fig = e.target.closest?.(".fig");
+  if (fig && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openLightbox(fig.dataset.src, fig.dataset.caption); }
+});
+lightbox.addEventListener("click", () => { lightbox.hidden = true; });
+
+// Populate #algo with the agents exported for one store layout, keeping (or defaulting) a selection.
+function populateAlgoOptions(layout, preferAlgo) {
+  const forLayout = allEntries.filter((e) => e.layout === layout);
+  ui.algo.innerHTML = "";
+  for (const e of forLayout) ui.algo.add(new Option(e.label ?? e.algorithm, e.file));
+  const pre = forLayout.find((e) => e.algorithm === preferAlgo)
+    ?? forLayout.find((e) => e.algorithm === params.get("algo"))
+    ?? forLayout.find((e) => e.algorithm === "dp_optimum")
+    ?? forLayout[0];
+  ui.algo.value = pre.file;
+  return pre;
+}
+const currentAlgo = () => allEntries.find((e) => e.file === ui.algo.value)?.algorithm;
+
+async function init() {
+  let entries;
+  try {
+    entries = (await fetchJSON(REPLAY_DIR + "index.json")).replays;
+  } catch (e) {
+    showMsg(`<b>Couldn't load replays.</b><br><br>${e.message}<br><br>
+      Browsers block <code>fetch()</code> of local files, so serve the project folder instead:<br><br>
+      <code>cd rl_restocking_robot</code><br><code>python -m http.server 8000</code><br><br>
+      then open <code>http://localhost:8000/viewer/</code>.<br>
+      If that fails too, regenerate the data: <code>cd code &amp;&amp; python export_replays.py</code>`);
+    throw e;
+  }
+  allEntries = entries;
+
+  const layouts = [...new Map(entries.map((e) => [e.layout, e])).values()].sort((a, b) => a.layout - b.layout);
+  ui.layout.innerHTML = "";
+  for (const e of layouts) ui.layout.add(new Option(`Store ${e.layout} · best service ${e.optimal_service.toFixed(2)}`, e.layout));
+  const want = Number(params.get("layout"));
+  ui.layout.value = layouts.some((e) => e.layout === want) ? want : layouts[0].layout;
+
+  const pre = populateAlgoOptions(Number(ui.layout.value));
+  await loadReplay(pre.file);
+  return entries;
+}
+
+// ---------- UI wiring ----------
+ui.algo.addEventListener("change", () => { const was = playing; setPlaying(false);
+  loadReplay(ui.algo.value).then(() => setPlaying(was)).catch((e) => showMsg(`<b>Load failed:</b> ${e.message}`)); });
+ui.layout.addEventListener("change", () => { const was = playing; setPlaying(false);
+  const pre = populateAlgoOptions(Number(ui.layout.value), currentAlgo());
+  loadReplay(pre.file).then(() => setPlaying(was)).catch((e) => showMsg(`<b>Load failed:</b> ${e.message}`)); });
+ui.play.addEventListener("click", () => setPlaying(!playing));
+$("prev").addEventListener("click", () => { setPlaying(false); setStep(step - 1, { animate: true }); });
+$("next").addEventListener("click", () => { setPlaying(false); setStep(step + 1, { animate: true }); });
+ui.scrub.addEventListener("input", () => setStep(+ui.scrub.value));
+ui.speed.addEventListener("change", () => { speed = +ui.speed.value; });
+addEventListener("keydown", (e) => {
+  if (e.target.tagName === "SELECT") return;
+  if (e.key === "Escape") {
+    if (!lightbox.hidden) lightbox.hidden = true; else if (!detailsEl.hidden) setDetailsOpen(false);
+    return;
+  }
+  if (e.target.closest?.("#details")) return;          // let the panel handle its own keys
+  if (e.code === "KeyR") setDetailsOpen(detailsEl.hidden);
+  else if (e.code === "Space") { e.preventDefault(); setPlaying(!playing); }
+  else if (e.code === "ArrowRight") { setPlaying(false); setStep(step + 1, { animate: true }); }
+  else if (e.code === "ArrowLeft") { setPlaying(false); setStep(step - 1, { animate: true }); }
+});
+addEventListener("resize", () => {
+  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+  layoutForDetails();
+});
+
+// ---------- render loop ----------
+const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
+function frame(now) {
+  if (playing && rep && now - playTimer >= STEP_MS / speed) {
+    playTimer = now;
+    if (step < rep.steps.length - 1) setStep(step + 1, { animate: true });
+    else setPlaying(false);
+  }
+  if (tween) {
+    const k = Math.min(1, (now - tween.start) / tween.dur);
+    robot.position.lerpVectors(tween.from, tween.to, ease(k));
+    if (k >= 1) tween = null;
+  }
+  robot.position.y = Math.sin(now / 180) * 0.02;       // idle hover so it reads as "alive"
+  for (const sh of Object.values(shelves)) {
+    if (sh.pulse > 0) {
+      sh.pulse = Math.max(0, sh.pulse - 0.025 * speed);
+      sh.mat.emissive.setRGB(0.1 * sh.pulse, 0.45 * sh.pulse, 0.15 * sh.pulse);
+      sh.mesh.scale.x = sh.mesh.scale.z = 1 + 0.12 * sh.pulse;
+    }
+  }
+  controls.update();
+  renderer.render(scene, camera);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+// ---------- self-test (?autotest=1): load every replay, drive every step ----------
+async function autotest(entries) {
+  const errors = [];
+  addEventListener("error", (e) => errors.push(String(e.message)));
+  const origErr = console.error;
+  console.error = (...a) => { errors.push(a.join(" ")); origErr(...a); };
+  const lines = [];
+  const details = await loadDetailsData();
+  for (const e of entries) {
+    try {
+      ui.layout.value = e.layout;
+      populateAlgoOptions(e.layout, e.algorithm);
+      await loadReplay(e.file);
+      for (let i = 1; i < rep.steps.length; i++) setStep(i, { animate: true });
+      renderer.render(scene, camera);
+      const ok = step === rep.steps.length - 1 && Math.abs(cum[step] - rep.episode_return) < 0.05;
+      lines.push(`${ok ? "OK  " : "FAIL"} ${e.algorithm} L${e.layout} steps=${rep.steps.length} cum=${cum[step].toFixed(1)} return=${rep.episode_return}`);
+      if (!ok) errors.push(`mismatch in ${e.algorithm}`);
+
+      // Results & details panel (checked on store 0 only, to keep the test quick)
+      if (e.layout !== 0) continue;
+      await setDetailsOpen(true);
+      if (details?.methods?.[e.algorithm]) {
+        const cards = detailsEl.querySelectorAll(".metric").length;
+        const imgs = [...detailsEl.querySelectorAll(".fig img")];
+        const loaded = await Promise.all(imgs.map((im) => { im.loading = "eager"; return im.decode().then(() => im.naturalWidth > 0, () => false); }));
+        const nOk = loaded.filter(Boolean).length;
+        const dOk = cards === 6 && imgs.length > 0 && nOk === imgs.length;
+        lines.push(`${dOk ? "OK  " : "FAIL"}   details: ${cards} result cards, ${nOk}/${imgs.length} figures loaded`);
+        if (!dOk) errors.push(`details panel incomplete for ${e.algorithm}`);
+      } else {
+        lines.push(`FAIL   details: no details.json entry for ${e.algorithm}`);
+        errors.push(`no details for ${e.algorithm}`);
+      }
+      await setDetailsOpen(false);
+    } catch (err) { errors.push(`${e.algorithm}: ${err.message}`); lines.push(`FAIL ${e.algorithm}`); }
+  }
+  const verdict = errors.length ? `AUTOTEST FAIL (${errors.length} errors)` : `AUTOTEST PASS (${entries.length} replays)`;
+  document.title = verdict;
+  const pre = document.createElement("pre");
+  pre.id = "autotest";
+  pre.textContent = [verdict, ...lines, ...errors.map((x) => "ERROR " + x)].join("\n");
+  document.body.appendChild(pre);
+}
+
+init().then((entries) => { if (AUTOTEST) autotest(entries); })
+  .catch((e) => { console.error(e); if (AUTOTEST) document.title = "AUTOTEST FAIL (init)"; });
+</script>
+</body>
+</html>

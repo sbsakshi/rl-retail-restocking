@@ -1,0 +1,844 @@
+{
+ "replays": [
+  {
+   "file": "dp_optimum__L0.json",
+   "algorithm": "dp_optimum",
+   "label": "Exact optimum (DP)",
+   "layout": 0,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "dqn__L0.json",
+   "algorithm": "dqn",
+   "label": "DQN",
+   "layout": 0,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "double_dqn__L0.json",
+   "algorithm": "double_dqn",
+   "label": "Double DQN",
+   "layout": 0,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "ppo__L0.json",
+   "algorithm": "ppo",
+   "label": "PPO",
+   "layout": 0,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "reinforce__L0.json",
+   "algorithm": "reinforce",
+   "label": "REINFORCE + baseline",
+   "layout": 0,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "sarsa_lambda__L0.json",
+   "algorithm": "sarsa_lambda",
+   "label": "SARSA(λ)",
+   "layout": 0,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "nstep_sarsa__L0.json",
+   "algorithm": "nstep_sarsa",
+   "label": "4-step Sarsa",
+   "layout": 0,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "sarsa__L0.json",
+   "algorithm": "sarsa",
+   "label": "SARSA",
+   "layout": 0,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "mc__L0.json",
+   "algorithm": "mc",
+   "label": "Monte Carlo control",
+   "layout": 0,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "qlearning__L0.json",
+   "algorithm": "qlearning",
+   "label": "Q-Learning",
+   "layout": 0,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "sarsa_lambda_q150__L0.json",
+   "algorithm": "sarsa_lambda_q150",
+   "label": "SARSA(λ) · Q₀ = −150",
+   "layout": 0,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "qlearning_q150__L0.json",
+   "algorithm": "qlearning_q150",
+   "label": "Q-Learning · Q₀ = −150",
+   "layout": 0,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "dp_optimum__L1.json",
+   "algorithm": "dp_optimum",
+   "label": "Exact optimum (DP)",
+   "layout": 1,
+   "optimal_service": 0.899
+  },
+  {
+   "file": "dqn__L1.json",
+   "algorithm": "dqn",
+   "label": "DQN",
+   "layout": 1,
+   "optimal_service": 0.899
+  },
+  {
+   "file": "double_dqn__L1.json",
+   "algorithm": "double_dqn",
+   "label": "Double DQN",
+   "layout": 1,
+   "optimal_service": 0.899
+  },
+  {
+   "file": "ppo__L1.json",
+   "algorithm": "ppo",
+   "label": "PPO",
+   "layout": 1,
+   "optimal_service": 0.899
+  },
+  {
+   "file": "reinforce__L1.json",
+   "algorithm": "reinforce",
+   "label": "REINFORCE + baseline",
+   "layout": 1,
+   "optimal_service": 0.899
+  },
+  {
+   "file": "sarsa_lambda__L1.json",
+   "algorithm": "sarsa_lambda",
+   "label": "SARSA(λ)",
+   "layout": 1,
+   "optimal_service": 0.899
+  },
+  {
+   "file": "nstep_sarsa__L1.json",
+   "algorithm": "nstep_sarsa",
+   "label": "4-step Sarsa",
+   "layout": 1,
+   "optimal_service": 0.899
+  },
+  {
+   "file": "sarsa__L1.json",
+   "algorithm": "sarsa",
+   "label": "SARSA",
+   "layout": 1,
+   "optimal_service": 0.899
+  },
+  {
+   "file": "mc__L1.json",
+   "algorithm": "mc",
+   "label": "Monte Carlo control",
+   "layout": 1,
+   "optimal_service": 0.899
+  },
+  {
+   "file": "qlearning__L1.json",
+   "algorithm": "qlearning",
+   "label": "Q-Learning",
+   "layout": 1,
+   "optimal_service": 0.899
+  },
+  {
+   "file": "sarsa_lambda_q150__L1.json",
+   "algorithm": "sarsa_lambda_q150",
+   "label": "SARSA(λ) · Q₀ = −150",
+   "layout": 1,
+   "optimal_service": 0.899
+  },
+  {
+   "file": "qlearning_q150__L1.json",
+   "algorithm": "qlearning_q150",
+   "label": "Q-Learning · Q₀ = −150",
+   "layout": 1,
+   "optimal_service": 0.899
+  },
+  {
+   "file": "dp_optimum__L2.json",
+   "algorithm": "dp_optimum",
+   "label": "Exact optimum (DP)",
+   "layout": 2,
+   "optimal_service": 0.969
+  },
+  {
+   "file": "dqn__L2.json",
+   "algorithm": "dqn",
+   "label": "DQN",
+   "layout": 2,
+   "optimal_service": 0.969
+  },
+  {
+   "file": "double_dqn__L2.json",
+   "algorithm": "double_dqn",
+   "label": "Double DQN",
+   "layout": 2,
+   "optimal_service": 0.969
+  },
+  {
+   "file": "ppo__L2.json",
+   "algorithm": "ppo",
+   "label": "PPO",
+   "layout": 2,
+   "optimal_service": 0.969
+  },
+  {
+   "file": "reinforce__L2.json",
+   "algorithm": "reinforce",
+   "label": "REINFORCE + baseline",
+   "layout": 2,
+   "optimal_service": 0.969
+  },
+  {
+   "file": "sarsa_lambda__L2.json",
+   "algorithm": "sarsa_lambda",
+   "label": "SARSA(λ)",
+   "layout": 2,
+   "optimal_service": 0.969
+  },
+  {
+   "file": "nstep_sarsa__L2.json",
+   "algorithm": "nstep_sarsa",
+   "label": "4-step Sarsa",
+   "layout": 2,
+   "optimal_service": 0.969
+  },
+  {
+   "file": "sarsa__L2.json",
+   "algorithm": "sarsa",
+   "label": "SARSA",
+   "layout": 2,
+   "optimal_service": 0.969
+  },
+  {
+   "file": "mc__L2.json",
+   "algorithm": "mc",
+   "label": "Monte Carlo control",
+   "layout": 2,
+   "optimal_service": 0.969
+  },
+  {
+   "file": "qlearning__L2.json",
+   "algorithm": "qlearning",
+   "label": "Q-Learning",
+   "layout": 2,
+   "optimal_service": 0.969
+  },
+  {
+   "file": "sarsa_lambda_q150__L2.json",
+   "algorithm": "sarsa_lambda_q150",
+   "label": "SARSA(λ) · Q₀ = −150",
+   "layout": 2,
+   "optimal_service": 0.969
+  },
+  {
+   "file": "qlearning_q150__L2.json",
+   "algorithm": "qlearning_q150",
+   "label": "Q-Learning · Q₀ = −150",
+   "layout": 2,
+   "optimal_service": 0.969
+  },
+  {
+   "file": "dp_optimum__L3.json",
+   "algorithm": "dp_optimum",
+   "label": "Exact optimum (DP)",
+   "layout": 3,
+   "optimal_service": 0.93
+  },
+  {
+   "file": "dqn__L3.json",
+   "algorithm": "dqn",
+   "label": "DQN",
+   "layout": 3,
+   "optimal_service": 0.93
+  },
+  {
+   "file": "double_dqn__L3.json",
+   "algorithm": "double_dqn",
+   "label": "Double DQN",
+   "layout": 3,
+   "optimal_service": 0.93
+  },
+  {
+   "file": "ppo__L3.json",
+   "algorithm": "ppo",
+   "label": "PPO",
+   "layout": 3,
+   "optimal_service": 0.93
+  },
+  {
+   "file": "reinforce__L3.json",
+   "algorithm": "reinforce",
+   "label": "REINFORCE + baseline",
+   "layout": 3,
+   "optimal_service": 0.93
+  },
+  {
+   "file": "sarsa_lambda__L3.json",
+   "algorithm": "sarsa_lambda",
+   "label": "SARSA(λ)",
+   "layout": 3,
+   "optimal_service": 0.93
+  },
+  {
+   "file": "nstep_sarsa__L3.json",
+   "algorithm": "nstep_sarsa",
+   "label": "4-step Sarsa",
+   "layout": 3,
+   "optimal_service": 0.93
+  },
+  {
+   "file": "sarsa__L3.json",
+   "algorithm": "sarsa",
+   "label": "SARSA",
+   "layout": 3,
+   "optimal_service": 0.93
+  },
+  {
+   "file": "mc__L3.json",
+   "algorithm": "mc",
+   "label": "Monte Carlo control",
+   "layout": 3,
+   "optimal_service": 0.93
+  },
+  {
+   "file": "qlearning__L3.json",
+   "algorithm": "qlearning",
+   "label": "Q-Learning",
+   "layout": 3,
+   "optimal_service": 0.93
+  },
+  {
+   "file": "sarsa_lambda_q150__L3.json",
+   "algorithm": "sarsa_lambda_q150",
+   "label": "SARSA(λ) · Q₀ = −150",
+   "layout": 3,
+   "optimal_service": 0.93
+  },
+  {
+   "file": "qlearning_q150__L3.json",
+   "algorithm": "qlearning_q150",
+   "label": "Q-Learning · Q₀ = −150",
+   "layout": 3,
+   "optimal_service": 0.93
+  },
+  {
+   "file": "dp_optimum__L4.json",
+   "algorithm": "dp_optimum",
+   "label": "Exact optimum (DP)",
+   "layout": 4,
+   "optimal_service": 0.683
+  },
+  {
+   "file": "dqn__L4.json",
+   "algorithm": "dqn",
+   "label": "DQN",
+   "layout": 4,
+   "optimal_service": 0.683
+  },
+  {
+   "file": "double_dqn__L4.json",
+   "algorithm": "double_dqn",
+   "label": "Double DQN",
+   "layout": 4,
+   "optimal_service": 0.683
+  },
+  {
+   "file": "ppo__L4.json",
+   "algorithm": "ppo",
+   "label": "PPO",
+   "layout": 4,
+   "optimal_service": 0.683
+  },
+  {
+   "file": "reinforce__L4.json",
+   "algorithm": "reinforce",
+   "label": "REINFORCE + baseline",
+   "layout": 4,
+   "optimal_service": 0.683
+  },
+  {
+   "file": "sarsa_lambda__L4.json",
+   "algorithm": "sarsa_lambda",
+   "label": "SARSA(λ)",
+   "layout": 4,
+   "optimal_service": 0.683
+  },
+  {
+   "file": "nstep_sarsa__L4.json",
+   "algorithm": "nstep_sarsa",
+   "label": "4-step Sarsa",
+   "layout": 4,
+   "optimal_service": 0.683
+  },
+  {
+   "file": "sarsa__L4.json",
+   "algorithm": "sarsa",
+   "label": "SARSA",
+   "layout": 4,
+   "optimal_service": 0.683
+  },
+  {
+   "file": "mc__L4.json",
+   "algorithm": "mc",
+   "label": "Monte Carlo control",
+   "layout": 4,
+   "optimal_service": 0.683
+  },
+  {
+   "file": "qlearning__L4.json",
+   "algorithm": "qlearning",
+   "label": "Q-Learning",
+   "layout": 4,
+   "optimal_service": 0.683
+  },
+  {
+   "file": "sarsa_lambda_q150__L4.json",
+   "algorithm": "sarsa_lambda_q150",
+   "label": "SARSA(λ) · Q₀ = −150",
+   "layout": 4,
+   "optimal_service": 0.683
+  },
+  {
+   "file": "qlearning_q150__L4.json",
+   "algorithm": "qlearning_q150",
+   "label": "Q-Learning · Q₀ = −150",
+   "layout": 4,
+   "optimal_service": 0.683
+  },
+  {
+   "file": "dp_optimum__L5.json",
+   "algorithm": "dp_optimum",
+   "label": "Exact optimum (DP)",
+   "layout": 5,
+   "optimal_service": 0.807
+  },
+  {
+   "file": "dqn__L5.json",
+   "algorithm": "dqn",
+   "label": "DQN",
+   "layout": 5,
+   "optimal_service": 0.807
+  },
+  {
+   "file": "double_dqn__L5.json",
+   "algorithm": "double_dqn",
+   "label": "Double DQN",
+   "layout": 5,
+   "optimal_service": 0.807
+  },
+  {
+   "file": "ppo__L5.json",
+   "algorithm": "ppo",
+   "label": "PPO",
+   "layout": 5,
+   "optimal_service": 0.807
+  },
+  {
+   "file": "reinforce__L5.json",
+   "algorithm": "reinforce",
+   "label": "REINFORCE + baseline",
+   "layout": 5,
+   "optimal_service": 0.807
+  },
+  {
+   "file": "sarsa_lambda__L5.json",
+   "algorithm": "sarsa_lambda",
+   "label": "SARSA(λ)",
+   "layout": 5,
+   "optimal_service": 0.807
+  },
+  {
+   "file": "nstep_sarsa__L5.json",
+   "algorithm": "nstep_sarsa",
+   "label": "4-step Sarsa",
+   "layout": 5,
+   "optimal_service": 0.807
+  },
+  {
+   "file": "sarsa__L5.json",
+   "algorithm": "sarsa",
+   "label": "SARSA",
+   "layout": 5,
+   "optimal_service": 0.807
+  },
+  {
+   "file": "mc__L5.json",
+   "algorithm": "mc",
+   "label": "Monte Carlo control",
+   "layout": 5,
+   "optimal_service": 0.807
+  },
+  {
+   "file": "qlearning__L5.json",
+   "algorithm": "qlearning",
+   "label": "Q-Learning",
+   "layout": 5,
+   "optimal_service": 0.807
+  },
+  {
+   "file": "sarsa_lambda_q150__L5.json",
+   "algorithm": "sarsa_lambda_q150",
+   "label": "SARSA(λ) · Q₀ = −150",
+   "layout": 5,
+   "optimal_service": 0.807
+  },
+  {
+   "file": "qlearning_q150__L5.json",
+   "algorithm": "qlearning_q150",
+   "label": "Q-Learning · Q₀ = −150",
+   "layout": 5,
+   "optimal_service": 0.807
+  },
+  {
+   "file": "dp_optimum__L6.json",
+   "algorithm": "dp_optimum",
+   "label": "Exact optimum (DP)",
+   "layout": 6,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "dqn__L6.json",
+   "algorithm": "dqn",
+   "label": "DQN",
+   "layout": 6,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "double_dqn__L6.json",
+   "algorithm": "double_dqn",
+   "label": "Double DQN",
+   "layout": 6,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "ppo__L6.json",
+   "algorithm": "ppo",
+   "label": "PPO",
+   "layout": 6,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "reinforce__L6.json",
+   "algorithm": "reinforce",
+   "label": "REINFORCE + baseline",
+   "layout": 6,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "sarsa_lambda__L6.json",
+   "algorithm": "sarsa_lambda",
+   "label": "SARSA(λ)",
+   "layout": 6,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "nstep_sarsa__L6.json",
+   "algorithm": "nstep_sarsa",
+   "label": "4-step Sarsa",
+   "layout": 6,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "sarsa__L6.json",
+   "algorithm": "sarsa",
+   "label": "SARSA",
+   "layout": 6,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "mc__L6.json",
+   "algorithm": "mc",
+   "label": "Monte Carlo control",
+   "layout": 6,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "qlearning__L6.json",
+   "algorithm": "qlearning",
+   "label": "Q-Learning",
+   "layout": 6,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "sarsa_lambda_q150__L6.json",
+   "algorithm": "sarsa_lambda_q150",
+   "label": "SARSA(λ) · Q₀ = −150",
+   "layout": 6,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "qlearning_q150__L6.json",
+   "algorithm": "qlearning_q150",
+   "label": "Q-Learning · Q₀ = −150",
+   "layout": 6,
+   "optimal_service": 0.856
+  },
+  {
+   "file": "dp_optimum__L7.json",
+   "algorithm": "dp_optimum",
+   "label": "Exact optimum (DP)",
+   "layout": 7,
+   "optimal_service": 0.769
+  },
+  {
+   "file": "dqn__L7.json",
+   "algorithm": "dqn",
+   "label": "DQN",
+   "layout": 7,
+   "optimal_service": 0.769
+  },
+  {
+   "file": "double_dqn__L7.json",
+   "algorithm": "double_dqn",
+   "label": "Double DQN",
+   "layout": 7,
+   "optimal_service": 0.769
+  },
+  {
+   "file": "ppo__L7.json",
+   "algorithm": "ppo",
+   "label": "PPO",
+   "layout": 7,
+   "optimal_service": 0.769
+  },
+  {
+   "file": "reinforce__L7.json",
+   "algorithm": "reinforce",
+   "label": "REINFORCE + baseline",
+   "layout": 7,
+   "optimal_service": 0.769
+  },
+  {
+   "file": "sarsa_lambda__L7.json",
+   "algorithm": "sarsa_lambda",
+   "label": "SARSA(λ)",
+   "layout": 7,
+   "optimal_service": 0.769
+  },
+  {
+   "file": "nstep_sarsa__L7.json",
+   "algorithm": "nstep_sarsa",
+   "label": "4-step Sarsa",
+   "layout": 7,
+   "optimal_service": 0.769
+  },
+  {
+   "file": "sarsa__L7.json",
+   "algorithm": "sarsa",
+   "label": "SARSA",
+   "layout": 7,
+   "optimal_service": 0.769
+  },
+  {
+   "file": "mc__L7.json",
+   "algorithm": "mc",
+   "label": "Monte Carlo control",
+   "layout": 7,
+   "optimal_service": 0.769
+  },
+  {
+   "file": "qlearning__L7.json",
+   "algorithm": "qlearning",
+   "label": "Q-Learning",
+   "layout": 7,
+   "optimal_service": 0.769
+  },
+  {
+   "file": "sarsa_lambda_q150__L7.json",
+   "algorithm": "sarsa_lambda_q150",
+   "label": "SARSA(λ) · Q₀ = −150",
+   "layout": 7,
+   "optimal_service": 0.769
+  },
+  {
+   "file": "qlearning_q150__L7.json",
+   "algorithm": "qlearning_q150",
+   "label": "Q-Learning · Q₀ = −150",
+   "layout": 7,
+   "optimal_service": 0.769
+  },
+  {
+   "file": "dp_optimum__L8.json",
+   "algorithm": "dp_optimum",
+   "label": "Exact optimum (DP)",
+   "layout": 8,
+   "optimal_service": 0.868
+  },
+  {
+   "file": "dqn__L8.json",
+   "algorithm": "dqn",
+   "label": "DQN",
+   "layout": 8,
+   "optimal_service": 0.868
+  },
+  {
+   "file": "double_dqn__L8.json",
+   "algorithm": "double_dqn",
+   "label": "Double DQN",
+   "layout": 8,
+   "optimal_service": 0.868
+  },
+  {
+   "file": "ppo__L8.json",
+   "algorithm": "ppo",
+   "label": "PPO",
+   "layout": 8,
+   "optimal_service": 0.868
+  },
+  {
+   "file": "reinforce__L8.json",
+   "algorithm": "reinforce",
+   "label": "REINFORCE + baseline",
+   "layout": 8,
+   "optimal_service": 0.868
+  },
+  {
+   "file": "sarsa_lambda__L8.json",
+   "algorithm": "sarsa_lambda",
+   "label": "SARSA(λ)",
+   "layout": 8,
+   "optimal_service": 0.868
+  },
+  {
+   "file": "nstep_sarsa__L8.json",
+   "algorithm": "nstep_sarsa",
+   "label": "4-step Sarsa",
+   "layout": 8,
+   "optimal_service": 0.868
+  },
+  {
+   "file": "sarsa__L8.json",
+   "algorithm": "sarsa",
+   "label": "SARSA",
+   "layout": 8,
+   "optimal_service": 0.868
+  },
+  {
+   "file": "mc__L8.json",
+   "algorithm": "mc",
+   "label": "Monte Carlo control",
+   "layout": 8,
+   "optimal_service": 0.868
+  },
+  {
+   "file": "qlearning__L8.json",
+   "algorithm": "qlearning",
+   "label": "Q-Learning",
+   "layout": 8,
+   "optimal_service": 0.868
+  },
+  {
+   "file": "sarsa_lambda_q150__L8.json",
+   "algorithm": "sarsa_lambda_q150",
+   "label": "SARSA(λ) · Q₀ = −150",
+   "layout": 8,
+   "optimal_service": 0.868
+  },
+  {
+   "file": "qlearning_q150__L8.json",
+   "algorithm": "qlearning_q150",
+   "label": "Q-Learning · Q₀ = −150",
+   "layout": 8,
+   "optimal_service": 0.868
+  },
+  {
+   "file": "dp_optimum__L9.json",
+   "algorithm": "dp_optimum",
+   "label": "Exact optimum (DP)",
+   "layout": 9,
+   "optimal_service": 0.816
+  },
+  {
+   "file": "dqn__L9.json",
+   "algorithm": "dqn",
+   "label": "DQN",
+   "layout": 9,
+   "optimal_service": 0.816
+  },
+  {
+   "file": "double_dqn__L9.json",
+   "algorithm": "double_dqn",
+   "label": "Double DQN",
+   "layout": 9,
+   "optimal_service": 0.816
+  },
+  {
+   "file": "ppo__L9.json",
+   "algorithm": "ppo",
+   "label": "PPO",
+   "layout": 9,
+   "optimal_service": 0.816
+  },
+  {
+   "file": "reinforce__L9.json",
+   "algorithm": "reinforce",
+   "label": "REINFORCE + baseline",
+   "layout": 9,
+   "optimal_service": 0.816
+  },
+  {
+   "file": "sarsa_lambda__L9.json",
+   "algorithm": "sarsa_lambda",
+   "label": "SARSA(λ)",
+   "layout": 9,
+   "optimal_service": 0.816
+  },
+  {
+   "file": "nstep_sarsa__L9.json",
+   "algorithm": "nstep_sarsa",
+   "label": "4-step Sarsa",
+   "layout": 9,
+   "optimal_service": 0.816
+  },
+  {
+   "file": "sarsa__L9.json",
+   "algorithm": "sarsa",
+   "label": "SARSA",
+   "layout": 9,
+   "optimal_service": 0.816
+  },
+  {
+   "file": "mc__L9.json",
+   "algorithm": "mc",
+   "label": "Monte Carlo control",
+   "layout": 9,
+   "optimal_service": 0.816
+  },
+  {
+   "file": "qlearning__L9.json",
+   "algorithm": "qlearning",
+   "label": "Q-Learning",
+   "layout": 9,
+   "optimal_service": 0.816
+  },
+  {
+   "file": "sarsa_lambda_q150__L9.json",
+   "algorithm": "sarsa_lambda_q150",
+   "label": "SARSA(λ) · Q₀ = −150",
+   "layout": 9,
+   "optimal_service": 0.816
+  },
+  {
+   "file": "qlearning_q150__L9.json",
+   "algorithm": "qlearning_q150",
+   "label": "Q-Learning · Q₀ = −150",
+   "layout": 9,
+   "optimal_service": 0.816
+  }
+ ]
+}

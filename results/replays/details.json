@@ -1,0 +1,1626 @@
+{
+ "methods": {
+  "dp_optimum": {
+   "label": "Exact optimum (DP)",
+   "family": "Exact planning",
+   "summary": "Value iteration on the exact 768-state model of the store, with the objective reward and gamma = 0.95. It is given the transition probabilities rather than learning them, so it is the reference every learner is measured against (normalised score close to 1).",
+   "update_rule": "V(s) <- max_a sum_s' P(s'|s,a) [ r(s,a,s') + gamma V(s') ]",
+   "config": [
+    [
+     "States",
+     "768 (x, y, carried, stock1, stock2)"
+    ],
+    [
+     "Reward",
+     "objective"
+    ],
+    [
+     "Discount",
+     "0.95"
+    ],
+    [
+     "Stopping rule",
+     "max change < 1e-10"
+    ]
+   ],
+   "layouts": [
+    {
+     "score": 0.9963,
+     "objective": -476.254,
+     "service_level": 0.8559,
+     "distance": 150.3537,
+     "stockout_duration": 5.9013,
+     "agree_opt_states": 1.0
+    },
+    {
+     "score": 0.9995,
+     "objective": -337.7403,
+     "service_level": 0.8989,
+     "distance": 143.3563,
+     "stockout_duration": 5.318,
+     "agree_opt_states": 1.0
+    },
+    {
+     "score": 0.9992,
+     "objective": -111.0766,
+     "service_level": 0.969,
+     "distance": 120.2512,
+     "stockout_duration": 3.114,
+     "agree_opt_states": 1.0
+    },
+    {
+     "score": 0.9997,
+     "objective": -237.0829,
+     "service_level": 0.93,
+     "distance": 129.5565,
+     "stockout_duration": 4.1338,
+     "agree_opt_states": 1.0
+    },
+    {
+     "score": 0.9829,
+     "objective": -1031.3787,
+     "service_level": 0.6828,
+     "distance": 164.8606,
+     "stockout_duration": 10.5741,
+     "agree_opt_states": 1.0
+    },
+    {
+     "score": 0.9973,
+     "objective": -633.0885,
+     "service_level": 0.807,
+     "distance": 156.3402,
+     "stockout_duration": 7.0336,
+     "agree_opt_states": 1.0
+    },
+    {
+     "score": 0.9963,
+     "objective": -476.254,
+     "service_level": 0.8559,
+     "distance": 150.3537,
+     "stockout_duration": 5.9013,
+     "agree_opt_states": 1.0
+    },
+    {
+     "score": 0.9889,
+     "objective": -755.6292,
+     "service_level": 0.7688,
+     "distance": 156.9611,
+     "stockout_duration": 8.0444,
+     "agree_opt_states": 1.0
+    },
+    {
+     "score": 0.9994,
+     "objective": -436.1856,
+     "service_level": 0.8684,
+     "distance": 151.5673,
+     "stockout_duration": 6.3897,
+     "agree_opt_states": 1.0
+    },
+    {
+     "score": 0.9861,
+     "objective": -602.9866,
+     "service_level": 0.8164,
+     "distance": 154.1456,
+     "stockout_duration": 6.8209,
+     "agree_opt_states": 1.0
+    }
+   ],
+   "figures": [
+    {
+     "src": "results/figures/layouts.png",
+     "caption": "The ten store layouts (Fig. 1)"
+    },
+    {
+     "src": "results/figures/frontier_proposal.png",
+     "caption": "Exact service/travel frontier (Fig. 4)"
+    },
+    {
+     "src": "results/figures/reward_effect.png",
+     "caption": "Score of every learner under each training reward (Fig. 2)"
+    }
+   ]
+  },
+  "dqn": {
+   "label": "DQN",
+   "family": "Deep value-based",
+   "summary": "A neural Q-function trained from a replay buffer against a periodically copied target network. The strongest learner: within a few percent of the optimum on the Proposal reward.",
+   "update_rule": "loss = Huber( r + gamma max_a' Q_target(s',a') - Q(s,a) )",
+   "config": [
+    [
+     "Training reward",
+     "proposal"
+    ],
+    [
+     "Budget",
+     "600 episodes x 200 steps"
+    ],
+    [
+     "Network",
+     "2 x 64 ReLU"
+    ],
+    [
+     "Adam learning rate",
+     0.0005
+    ],
+    [
+     "Batch",
+     64
+    ],
+    [
+     "Replay buffer",
+     50000
+    ],
+    [
+     "Target copy every",
+     "500 steps"
+    ],
+    [
+     "Exploration",
+     "epsilon 1.0 -> 0.05 over 450 episodes"
+    ]
+   ],
+   "layouts": [
+    {
+     "score": 0.9377,
+     "objective": -606.7671,
+     "service_level": 0.8151,
+     "distance": 151.1294,
+     "stockout_duration": 6.248,
+     "agree_opt_states": 0.8447
+    },
+    {
+     "score": 0.9606,
+     "objective": -429.0791,
+     "service_level": 0.8707,
+     "distance": 154.1201,
+     "stockout_duration": 5.2019,
+     "agree_opt_states": 0.8525
+    },
+    {
+     "score": 0.9806,
+     "objective": -158.9859,
+     "service_level": 0.9547,
+     "distance": 141.2801,
+     "stockout_duration": 3.5648,
+     "agree_opt_states": 0.8141
+    },
+    {
+     "score": 0.974,
+     "objective": -299.81,
+     "service_level": 0.911,
+     "distance": 148.9885,
+     "stockout_duration": 4.3539,
+     "agree_opt_states": 0.8581
+    },
+    {
+     "score": 0.8905,
+     "objective": -1189.5709,
+     "service_level": 0.633,
+     "distance": 150.1993,
+     "stockout_duration": 11.0448,
+     "agree_opt_states": 0.9438
+    },
+    {
+     "score": 0.9669,
+     "objective": -695.8713,
+     "service_level": 0.7876,
+     "distance": 161.8008,
+     "stockout_duration": 7.1069,
+     "agree_opt_states": 0.9402
+    },
+    {
+     "score": 0.9656,
+     "objective": -544.4425,
+     "service_level": 0.8347,
+     "distance": 153.6075,
+     "stockout_duration": 5.9832,
+     "agree_opt_states": 0.8618
+    },
+    {
+     "score": 0.9727,
+     "objective": -787.516,
+     "service_level": 0.759,
+     "distance": 162.9823,
+     "stockout_duration": 8.0267,
+     "agree_opt_states": 0.9488
+    },
+    {
+     "score": 0.9627,
+     "objective": -518.4798,
+     "service_level": 0.8429,
+     "distance": 157.1713,
+     "stockout_duration": 6.0352,
+     "agree_opt_states": 0.9153
+    },
+    {
+     "score": 0.9578,
+     "objective": -662.8298,
+     "service_level": 0.7978,
+     "distance": 156.8992,
+     "stockout_duration": 6.8463,
+     "agree_opt_states": 0.9185
+    }
+   ],
+   "figures": [
+    {
+     "src": "results/figures/curves_proposal.png",
+     "caption": "Learning curves, Proposal reward (Fig. 3)"
+    },
+    {
+     "src": "results/figures/frontier_proposal.png",
+     "caption": "Learned policies on the exact frontier (Fig. 4)"
+    },
+    {
+     "src": "results/figures/reward_effect.png",
+     "caption": "Score of every learner under each training reward (Fig. 2)"
+    }
+   ]
+  },
+  "double_dqn": {
+   "label": "Double DQN",
+   "family": "Deep value-based",
+   "summary": "DQN where the online network chooses the next action and the target network evaluates it, to reduce overestimation. Statistically indistinguishable from DQN here.",
+   "update_rule": "loss = Huber( r + gamma Q_target(s', argmax_a' Q(s',a')) - Q(s,a) )",
+   "config": [
+    [
+     "Training reward",
+     "proposal"
+    ],
+    [
+     "Budget",
+     "600 episodes x 200 steps"
+    ],
+    [
+     "Network",
+     "2 x 64 ReLU"
+    ],
+    [
+     "Adam learning rate",
+     0.0005
+    ],
+    [
+     "Batch",
+     64
+    ],
+    [
+     "Replay buffer",
+     50000
+    ],
+    [
+     "Target copy every",
+     "500 steps"
+    ],
+    [
+     "Exploration",
+     "epsilon 1.0 -> 0.05 over 450 episodes"
+    ]
+   ],
+   "layouts": [
+    {
+     "score": 0.9431,
+     "objective": -594.6733,
+     "service_level": 0.8187,
+     "distance": 144.7286,
+     "stockout_duration": 6.5904,
+     "agree_opt_states": 0.9105
+    },
+    {
+     "score": 0.9759,
+     "objective": -393.1079,
+     "service_level": 0.8818,
+     "distance": 149.2932,
+     "stockout_duration": 5.2209,
+     "agree_opt_states": 0.8723
+    },
+    {
+     "score": 0.9784,
+     "objective": -164.5921,
+     "service_level": 0.953,
+     "distance": 143.3842,
+     "stockout_duration": 3.5957,
+     "agree_opt_states": 0.7471
+    },
+    {
+     "score": 0.9814,
+     "objective": -281.8052,
+     "service_level": 0.9163,
+     "distance": 139.3398,
+     "stockout_duration": 4.3361,
+     "agree_opt_states": 0.8811
+    },
+    {
+     "score": 0.9751,
+     "objective": -1044.6523,
+     "service_level": 0.6787,
+     "distance": 166.4373,
+     "stockout_duration": 10.583,
+     "agree_opt_states": 0.9813
+    },
+    {
+     "score": 0.9569,
+     "objective": -716.5171,
+     "service_level": 0.7809,
+     "distance": 154.7552,
+     "stockout_duration": 7.666,
+     "agree_opt_states": 0.9084
+    },
+    {
+     "score": 0.9905,
+     "objective": -489.1597,
+     "service_level": 0.8519,
+     "distance": 153.7977,
+     "stockout_duration": 5.8752,
+     "agree_opt_states": 0.9411
+    },
+    {
+     "score": 0.9642,
+     "objective": -804.2499,
+     "service_level": 0.7536,
+     "distance": 158.2171,
+     "stockout_duration": 8.1377,
+     "agree_opt_states": 0.9515
+    },
+    {
+     "score": 0.9432,
+     "objective": -562.1668,
+     "service_level": 0.8291,
+     "distance": 152.2299,
+     "stockout_duration": 6.4309,
+     "agree_opt_states": 0.8786
+    },
+    {
+     "score": 0.8899,
+     "objective": -806.5291,
+     "service_level": 0.7524,
+     "distance": 143.1164,
+     "stockout_duration": 7.6625,
+     "agree_opt_states": 0.8942
+    }
+   ],
+   "figures": [
+    {
+     "src": "results/figures/curves_proposal.png",
+     "caption": "Learning curves, Proposal reward (Fig. 3)"
+    },
+    {
+     "src": "results/figures/frontier_proposal.png",
+     "caption": "Learned policies on the exact frontier (Fig. 4)"
+    },
+    {
+     "src": "results/figures/reward_effect.png",
+     "caption": "Score of every learner under each training reward (Fig. 2)"
+    }
+   ]
+  },
+  "ppo": {
+   "label": "PPO",
+   "family": "Policy gradient (actor-critic)",
+   "summary": "Clipped-objective actor-critic with generalised advantage estimation, reusing each 2048-step batch for 10 epochs. Strong on some layouts, stalls on others.",
+   "update_rule": "L = E[ min(rho A, clip(rho, 0.8, 1.2) A) ],  rho = pi(a|s) / pi_old(a|s),  A from GAE(0.95)",
+   "config": [
+    [
+     "Training reward",
+     "proposal"
+    ],
+    [
+     "Budget",
+     "600 episodes x 200 steps"
+    ],
+    [
+     "Network",
+     "2 x 64 ReLU (actor and critic)"
+    ],
+    [
+     "Adam learning rate",
+     0.0003
+    ],
+    [
+     "Rollout",
+     "2048 steps"
+    ],
+    [
+     "Epochs",
+     10
+    ],
+    [
+     "Clip",
+     0.2
+    ],
+    [
+     "GAE lambda",
+     0.95
+    ]
+   ],
+   "layouts": [
+    {
+     "score": 0.5515,
+     "objective": -1466.0482,
+     "service_level": 0.547,
+     "distance": 165.8886,
+     "stockout_duration": 79.2284,
+     "agree_opt_states": 0.8051
+    },
+    {
+     "score": 0.5332,
+     "objective": -1431.5524,
+     "service_level": 0.5579,
+     "distance": 166.9224,
+     "stockout_duration": 125.1989,
+     "agree_opt_states": 0.7291
+    },
+    {
+     "score": 0.9884,
+     "objective": -138.9126,
+     "service_level": 0.9609,
+     "distance": 138.5589,
+     "stockout_duration": 3.636,
+     "agree_opt_states": 0.844
+    },
+    {
+     "score": 0.5028,
+     "objective": -1453.1247,
+     "service_level": 0.5502,
+     "distance": 137.5558,
+     "stockout_duration": 82.6073,
+     "agree_opt_states": 0.6313
+    },
+    {
+     "score": 0.9782,
+     "objective": -1039.3323,
+     "service_level": 0.6802,
+     "distance": 160.7273,
+     "stockout_duration": 13.8671,
+     "agree_opt_states": 0.9772
+    },
+    {
+     "score": 0.9613,
+     "objective": -707.4389,
+     "service_level": 0.7836,
+     "distance": 149.1851,
+     "stockout_duration": 7.7987,
+     "agree_opt_states": 0.9655
+    },
+    {
+     "score": 0.5201,
+     "objective": -1531.974,
+     "service_level": 0.5264,
+     "distance": 164.0267,
+     "stockout_duration": 71.7178,
+     "agree_opt_states": 0.7243
+    },
+    {
+     "score": 0.9847,
+     "objective": -763.9852,
+     "service_level": 0.7661,
+     "distance": 154.1495,
+     "stockout_duration": 9.9473,
+     "agree_opt_states": 0.9761
+    },
+    {
+     "score": 0.9895,
+     "objective": -458.2342,
+     "service_level": 0.8614,
+     "distance": 148.112,
+     "stockout_duration": 6.5238,
+     "agree_opt_states": 0.94
+    },
+    {
+     "score": 0.8942,
+     "objective": -797.5514,
+     "service_level": 0.7553,
+     "distance": 144.7189,
+     "stockout_duration": 8.3981,
+     "agree_opt_states": 0.9466
+    }
+   ],
+   "figures": [
+    {
+     "src": "results/figures/curves_proposal.png",
+     "caption": "Learning curves, Proposal reward (Fig. 3)"
+    },
+    {
+     "src": "results/figures/frontier_proposal.png",
+     "caption": "Learned policies on the exact frontier (Fig. 4)"
+    },
+    {
+     "src": "results/figures/reward_effect.png",
+     "caption": "Score of every learner under each training reward (Fig. 2)"
+    }
+   ]
+  },
+  "reinforce": {
+   "label": "REINFORCE + baseline",
+   "family": "Policy gradient",
+   "summary": "Raises the log-probability of each action in proportion to its return minus a learned baseline. The replay shows its greedy (argmax) policy, which scores far below the stochastic policy it actually learned.",
+   "update_rule": "grad = E[ (G_t - V(s_t)) grad log pi(a_t|s_t) ] + entropy bonus",
+   "config": [
+    [
+     "Training reward",
+     "proposal"
+    ],
+    [
+     "Budget",
+     "600 episodes x 200 steps"
+    ],
+    [
+     "Network",
+     "2 x 64 ReLU (policy and baseline)"
+    ],
+    [
+     "Policy learning rate",
+     0.003
+    ],
+    [
+     "Baseline learning rate",
+     0.001
+    ],
+    [
+     "Updates",
+     "one per episode"
+    ]
+   ],
+   "layouts": [
+    {
+     "score": -0.0633,
+     "objective": -2833.936,
+     "service_level": 0.12,
+     "distance": 179.3603,
+     "stockout_duration": 176.0,
+     "agree_opt_states": 0.1608
+    },
+    {
+     "score": 0.3837,
+     "objective": -1782.3081,
+     "service_level": 0.447,
+     "distance": 127.0244,
+     "stockout_duration": 129.0678,
+     "agree_opt_states": 0.7242
+    },
+    {
+     "score": 0.0375,
+     "objective": -2580.5858,
+     "service_level": 0.194,
+     "distance": 14.0785,
+     "stockout_duration": 117.3967,
+     "agree_opt_states": 0.6316
+    },
+    {
+     "score": 0.5013,
+     "objective": -1456.952,
+     "service_level": 0.5495,
+     "distance": 152.3765,
+     "stockout_duration": 64.03,
+     "agree_opt_states": 0.4083
+    },
+    {
+     "score": -0.0022,
+     "objective": -2717.9006,
+     "service_level": 0.151,
+     "distance": 10.8408,
+     "stockout_duration": 146.753,
+     "agree_opt_states": 0.7298
+    },
+    {
+     "score": 0.0194,
+     "objective": -2653.764,
+     "service_level": 0.1714,
+     "distance": 23.2263,
+     "stockout_duration": 166.3796,
+     "agree_opt_states": 0.8653
+    },
+    {
+     "score": -0.0102,
+     "objective": -2707.5253,
+     "service_level": 0.1542,
+     "distance": 10.3659,
+     "stockout_duration": 155.1842,
+     "agree_opt_states": 0.7152
+    },
+    {
+     "score": 0.3989,
+     "objective": -1915.5959,
+     "service_level": 0.4061,
+     "distance": 150.8657,
+     "stockout_duration": 30.0935,
+     "agree_opt_states": 0.884
+    },
+    {
+     "score": 0.0371,
+     "objective": -2595.4004,
+     "service_level": 0.1946,
+     "distance": 179.7927,
+     "stockout_duration": 154.2259,
+     "agree_opt_states": 0.8748
+    },
+    {
+     "score": 0.0321,
+     "objective": -2621.1493,
+     "service_level": 0.1868,
+     "distance": 189.5163,
+     "stockout_duration": 126.6806,
+     "agree_opt_states": 0.7615
+    }
+   ],
+   "figures": [
+    {
+     "src": "results/figures/curves_proposal.png",
+     "caption": "Learning curves, Proposal reward (Fig. 3)"
+    },
+    {
+     "src": "results/figures/frontier_proposal.png",
+     "caption": "Learned policies on the exact frontier (Fig. 4)"
+    },
+    {
+     "src": "results/figures/reward_effect.png",
+     "caption": "Score of every learner under each training reward (Fig. 2)"
+    }
+   ]
+  },
+  "sarsa_lambda": {
+   "label": "SARSA(λ)",
+   "family": "Tabular TD with eligibility traces",
+   "summary": "Applies each TD error to all recently visited state-action pairs through accumulating eligibility traces (lambda = 0.8). The strongest tabular method.",
+   "update_rule": "delta = r + gamma Q(s',a') - Q(s,a);  e(s,a) += 1;  Q += alpha delta e;  e *= gamma lambda",
+   "config": [
+    [
+     "Training reward",
+     "proposal"
+    ],
+    [
+     "Budget",
+     "600 episodes x 200 steps"
+    ],
+    [
+     "Learning rate alpha",
+     0.15
+    ],
+    [
+     "Discount",
+     0.95
+    ],
+    [
+     "Initial Q-value",
+     0.0
+    ],
+    [
+     "Exploration",
+     "epsilon 1.0 -> 0.05 over 450 episodes"
+    ],
+    [
+     "lambda",
+     0.8
+    ]
+   ],
+   "layouts": [
+    {
+     "score": 0.7529,
+     "objective": -1018.0465,
+     "service_level": 0.686,
+     "distance": 133.8402,
+     "stockout_duration": 7.9427,
+     "agree_opt_states": 0.5654
+    },
+    {
+     "score": 0.7617,
+     "objective": -895.6063,
+     "service_level": 0.7236,
+     "distance": 112.626,
+     "stockout_duration": 9.5995,
+     "agree_opt_states": 0.6169
+    },
+    {
+     "score": 0.9796,
+     "objective": -161.4587,
+     "service_level": 0.953,
+     "distance": 109.0917,
+     "stockout_duration": 3.7633,
+     "agree_opt_states": 0.7968
+    },
+    {
+     "score": 0.8321,
+     "objective": -647.1585,
+     "service_level": 0.8016,
+     "distance": 122.0514,
+     "stockout_duration": 7.9293,
+     "agree_opt_states": 0.6986
+    },
+    {
+     "score": 0.5888,
+     "objective": -1706.0198,
+     "service_level": 0.4715,
+     "distance": 147.1851,
+     "stockout_duration": 23.1809,
+     "agree_opt_states": 0.6011
+    },
+    {
+     "score": 0.698,
+     "objective": -1251.5665,
+     "service_level": 0.613,
+     "distance": 132.559,
+     "stockout_duration": 11.1503,
+     "agree_opt_states": 0.5898
+    },
+    {
+     "score": 0.7346,
+     "objective": -1056.4285,
+     "service_level": 0.674,
+     "distance": 133.7546,
+     "stockout_duration": 8.7574,
+     "agree_opt_states": 0.6028
+    },
+    {
+     "score": 0.6577,
+     "objective": -1406.794,
+     "service_level": 0.5649,
+     "distance": 143.8701,
+     "stockout_duration": 13.4275,
+     "agree_opt_states": 0.5575
+    },
+    {
+     "score": 0.7667,
+     "objective": -958.174,
+     "service_level": 0.7046,
+     "distance": 127.6224,
+     "stockout_duration": 9.6457,
+     "agree_opt_states": 0.5013
+    },
+    {
+     "score": 0.4994,
+     "objective": -1632.6794,
+     "service_level": 0.4934,
+     "distance": 116.6616,
+     "stockout_duration": 18.4355,
+     "agree_opt_states": 0.4998
+    }
+   ],
+   "figures": [
+    {
+     "src": "results/figures/curves_proposal.png",
+     "caption": "Learning curves, Proposal reward (Fig. 3)"
+    },
+    {
+     "src": "results/figures/init.png",
+     "caption": "Initial-value study (Fig. 6)"
+    },
+    {
+     "src": "results/figures/diagnostics_objective.png",
+     "caption": "Optimism left in the tables (Fig. 5)"
+    },
+    {
+     "src": "results/figures/reward_effect.png",
+     "caption": "Score of every learner under each training reward (Fig. 2)"
+    }
+   ]
+  },
+  "nstep_sarsa": {
+   "label": "4-step Sarsa",
+   "family": "Tabular multi-step TD",
+   "summary": "Uses four observed rewards plus gamma^4 Q(s_t+4, a_t+4) as its target, so each update passes credit back four steps.",
+   "update_rule": "Q(s_t,a_t) <- Q + alpha [ r_t+1 + ... + gamma^3 r_t+4 + gamma^4 Q(s_t+4,a_t+4) - Q ]",
+   "config": [
+    [
+     "Training reward",
+     "proposal"
+    ],
+    [
+     "Budget",
+     "600 episodes x 200 steps"
+    ],
+    [
+     "Learning rate alpha",
+     0.15
+    ],
+    [
+     "Discount",
+     0.95
+    ],
+    [
+     "Initial Q-value",
+     0.0
+    ],
+    [
+     "Exploration",
+     "epsilon 1.0 -> 0.05 over 450 episodes"
+    ],
+    [
+     "n",
+     4
+    ]
+   ],
+   "layouts": [
+    {
+     "score": 0.6479,
+     "objective": -1251.4681,
+     "service_level": 0.6134,
+     "distance": 142.7683,
+     "stockout_duration": 11.9325,
+     "agree_opt_states": 0.5124
+    },
+    {
+     "score": 0.6975,
+     "objective": -1046.1032,
+     "service_level": 0.6771,
+     "distance": 129.269,
+     "stockout_duration": 10.8947,
+     "agree_opt_states": 0.5138
+    },
+    {
+     "score": 0.9046,
+     "objective": -354.0787,
+     "service_level": 0.893,
+     "distance": 117.5452,
+     "stockout_duration": 6.1225,
+     "agree_opt_states": 0.7118
+    },
+    {
+     "score": 0.6537,
+     "objective": -1083.9187,
+     "service_level": 0.6651,
+     "distance": 122.9876,
+     "stockout_duration": 14.3312,
+     "agree_opt_states": 0.4272
+    },
+    {
+     "score": 0.598,
+     "objective": -1690.2599,
+     "service_level": 0.476,
+     "distance": 134.248,
+     "stockout_duration": 28.0929,
+     "agree_opt_states": 0.5683
+    },
+    {
+     "score": 0.5333,
+     "objective": -1591.8623,
+     "service_level": 0.5063,
+     "distance": 120.7644,
+     "stockout_duration": 22.1263,
+     "agree_opt_states": 0.4387
+    },
+    {
+     "score": 0.7134,
+     "objective": -1103.3911,
+     "service_level": 0.659,
+     "distance": 122.4336,
+     "stockout_duration": 9.065,
+     "agree_opt_states": 0.4521
+    },
+    {
+     "score": 0.6544,
+     "objective": -1413.253,
+     "service_level": 0.5627,
+     "distance": 139.6158,
+     "stockout_duration": 13.9783,
+     "agree_opt_states": 0.5915
+    },
+    {
+     "score": 0.6907,
+     "objective": -1128.829,
+     "service_level": 0.6509,
+     "distance": 116.9158,
+     "stockout_duration": 12.0391,
+     "agree_opt_states": 0.5443
+    },
+    {
+     "score": 0.6992,
+     "objective": -1209.9632,
+     "service_level": 0.6259,
+     "distance": 127.0834,
+     "stockout_duration": 14.7601,
+     "agree_opt_states": 0.5164
+    }
+   ],
+   "figures": [
+    {
+     "src": "results/figures/curves_proposal.png",
+     "caption": "Learning curves, Proposal reward (Fig. 3)"
+    },
+    {
+     "src": "results/figures/init.png",
+     "caption": "Initial-value study (Fig. 6)"
+    },
+    {
+     "src": "results/figures/diagnostics_objective.png",
+     "caption": "Optimism left in the tables (Fig. 5)"
+    },
+    {
+     "src": "results/figures/reward_effect.png",
+     "caption": "Score of every learner under each training reward (Fig. 2)"
+    }
+   ]
+  },
+  "sarsa": {
+   "label": "SARSA",
+   "family": "Tabular TD (on-policy)",
+   "summary": "Moves Q(s,a) toward r + gamma Q(s',a') for the action actually taken next. On-policy, one step at a time.",
+   "update_rule": "Q(s,a) <- Q(s,a) + alpha [ r + gamma Q(s',a') - Q(s,a) ]",
+   "config": [
+    [
+     "Training reward",
+     "proposal"
+    ],
+    [
+     "Budget",
+     "600 episodes x 200 steps"
+    ],
+    [
+     "Learning rate alpha",
+     0.15
+    ],
+    [
+     "Discount",
+     0.95
+    ],
+    [
+     "Initial Q-value",
+     0.0
+    ],
+    [
+     "Exploration",
+     "epsilon 1.0 -> 0.05 over 450 episodes"
+    ]
+   ],
+   "layouts": [
+    {
+     "score": 0.5999,
+     "objective": -1358.4307,
+     "service_level": 0.5793,
+     "distance": 121.0236,
+     "stockout_duration": 15.5364,
+     "agree_opt_states": 0.568
+    },
+    {
+     "score": 0.5823,
+     "objective": -1316.4072,
+     "service_level": 0.5923,
+     "distance": 118.3506,
+     "stockout_duration": 17.2754,
+     "agree_opt_states": 0.5927
+    },
+    {
+     "score": 0.8407,
+     "objective": -518.0562,
+     "service_level": 0.8423,
+     "distance": 133.7645,
+     "stockout_duration": 8.9845,
+     "agree_opt_states": 0.6929
+    },
+    {
+     "score": 0.7209,
+     "objective": -919.4519,
+     "service_level": 0.7166,
+     "distance": 126.4295,
+     "stockout_duration": 9.1786,
+     "agree_opt_states": 0.6033
+    },
+    {
+     "score": 0.5055,
+     "objective": -1848.6657,
+     "service_level": 0.4261,
+     "distance": 122.5282,
+     "stockout_duration": 26.5492,
+     "agree_opt_states": 0.6211
+    },
+    {
+     "score": 0.1335,
+     "objective": -2417.9777,
+     "service_level": 0.2465,
+     "distance": 67.7987,
+     "stockout_duration": 79.633,
+     "agree_opt_states": 0.6305
+    },
+    {
+     "score": 0.537,
+     "objective": -1494.5622,
+     "service_level": 0.5372,
+     "distance": 136.4038,
+     "stockout_duration": 16.566,
+     "agree_opt_states": 0.612
+    },
+    {
+     "score": 0.2446,
+     "objective": -2219.0425,
+     "service_level": 0.3111,
+     "distance": 145.2877,
+     "stockout_duration": 71.3609,
+     "agree_opt_states": 0.6043
+    },
+    {
+     "score": 0.3586,
+     "objective": -1873.9754,
+     "service_level": 0.4169,
+     "distance": 79.4672,
+     "stockout_duration": 43.1228,
+     "agree_opt_states": 0.6328
+    },
+    {
+     "score": 0.3213,
+     "objective": -2009.3887,
+     "service_level": 0.3748,
+     "distance": 86.1189,
+     "stockout_duration": 33.8083,
+     "agree_opt_states": 0.5585
+    }
+   ],
+   "figures": [
+    {
+     "src": "results/figures/curves_proposal.png",
+     "caption": "Learning curves, Proposal reward (Fig. 3)"
+    },
+    {
+     "src": "results/figures/init.png",
+     "caption": "Initial-value study (Fig. 6)"
+    },
+    {
+     "src": "results/figures/diagnostics_objective.png",
+     "caption": "Optimism left in the tables (Fig. 5)"
+    },
+    {
+     "src": "results/figures/reward_effect.png",
+     "caption": "Score of every learner under each training reward (Fig. 2)"
+    }
+   ]
+  },
+  "mc": {
+   "label": "Monte Carlo control",
+   "family": "Tabular Monte Carlo",
+   "summary": "Moves Q(s,a) toward the observed discounted return of the episode; never bootstraps inside an episode.",
+   "update_rule": "Q(s_t,a_t) <- Q + alpha [ G_t - Q ],  G_t = r_t+1 + gamma G_t+1",
+   "config": [
+    [
+     "Training reward",
+     "proposal"
+    ],
+    [
+     "Budget",
+     "600 episodes x 200 steps"
+    ],
+    [
+     "Learning rate alpha",
+     0.15
+    ],
+    [
+     "Discount",
+     0.95
+    ],
+    [
+     "Initial Q-value",
+     0.0
+    ],
+    [
+     "Exploration",
+     "epsilon 1.0 -> 0.05 over 450 episodes"
+    ]
+   ],
+   "layouts": [
+    {
+     "score": 0.2239,
+     "objective": -2195.0313,
+     "service_level": 0.3189,
+     "distance": 154.1386,
+     "stockout_duration": 40.0891,
+     "agree_opt_states": 0.2253
+    },
+    {
+     "score": 0.3606,
+     "objective": -1836.5425,
+     "service_level": 0.4289,
+     "distance": 90.7348,
+     "stockout_duration": 32.0743,
+     "agree_opt_states": 0.3227
+    },
+    {
+     "score": 0.7698,
+     "objective": -700.2596,
+     "service_level": 0.7846,
+     "distance": 108.4485,
+     "stockout_duration": 7.3649,
+     "agree_opt_states": 0.4494
+    },
+    {
+     "score": 0.3532,
+     "objective": -1819.321,
+     "service_level": 0.4363,
+     "distance": 156.1012,
+     "stockout_duration": 23.7088,
+     "agree_opt_states": 0.2112
+    },
+    {
+     "score": 0.3352,
+     "objective": -2140.1663,
+     "service_level": 0.3348,
+     "distance": 114.0211,
+     "stockout_duration": 36.8495,
+     "agree_opt_states": 0.3158
+    },
+    {
+     "score": 0.3601,
+     "objective": -1949.7948,
+     "service_level": 0.3959,
+     "distance": 165.2171,
+     "stockout_duration": 27.658,
+     "agree_opt_states": 0.3584
+    },
+    {
+     "score": 0.4546,
+     "objective": -1677.1139,
+     "service_level": 0.4804,
+     "distance": 142.6933,
+     "stockout_duration": 19.078,
+     "agree_opt_states": 0.2802
+    },
+    {
+     "score": 0.4458,
+     "objective": -1823.4009,
+     "service_level": 0.4345,
+     "distance": 136.8256,
+     "stockout_duration": 29.3686,
+     "agree_opt_states": 0.4036
+    },
+    {
+     "score": -0.0106,
+     "objective": -2702.3966,
+     "service_level": 0.1558,
+     "distance": 11.0917,
+     "stockout_duration": 135.1541,
+     "agree_opt_states": 0.3383
+    },
+    {
+     "score": 0.4754,
+     "objective": -1683.5295,
+     "service_level": 0.478,
+     "distance": 131.4568,
+     "stockout_duration": 31.8653,
+     "agree_opt_states": 0.4159
+    }
+   ],
+   "figures": [
+    {
+     "src": "results/figures/curves_proposal.png",
+     "caption": "Learning curves, Proposal reward (Fig. 3)"
+    },
+    {
+     "src": "results/figures/init.png",
+     "caption": "Initial-value study (Fig. 6)"
+    },
+    {
+     "src": "results/figures/diagnostics_objective.png",
+     "caption": "Optimism left in the tables (Fig. 5)"
+    },
+    {
+     "src": "results/figures/reward_effect.png",
+     "caption": "Score of every learner under each training reward (Fig. 2)"
+    }
+   ]
+  },
+  "qlearning": {
+   "label": "Q-Learning",
+   "family": "Tabular TD (off-policy)",
+   "summary": "Moves Q(s,a) toward r + gamma max Q(s',.). Off-policy, one step at a time. With Q0 = 0 it keeps most of its initial optimism after 120,000 steps and is the weakest TD learner.",
+   "update_rule": "Q(s,a) <- Q(s,a) + alpha [ r + gamma max_a' Q(s',a') - Q(s,a) ]",
+   "config": [
+    [
+     "Training reward",
+     "proposal"
+    ],
+    [
+     "Budget",
+     "600 episodes x 200 steps"
+    ],
+    [
+     "Learning rate alpha",
+     0.15
+    ],
+    [
+     "Discount",
+     0.95
+    ],
+    [
+     "Initial Q-value",
+     0.0
+    ],
+    [
+     "Exploration",
+     "epsilon 1.0 -> 0.05 over 450 episodes"
+    ]
+   ],
+   "layouts": [
+    {
+     "score": 0.2083,
+     "objective": -2229.6677,
+     "service_level": 0.3046,
+     "distance": 43.1747,
+     "stockout_duration": 49.3968,
+     "agree_opt_states": 0.5706
+    },
+    {
+     "score": 0.1072,
+     "objective": -2431.0633,
+     "service_level": 0.2416,
+     "distance": 41.974,
+     "stockout_duration": 96.5824,
+     "agree_opt_states": 0.5283
+    },
+    {
+     "score": 0.9118,
+     "objective": -335.5463,
+     "service_level": 0.8993,
+     "distance": 132.6718,
+     "stockout_duration": 6.0585,
+     "agree_opt_states": 0.6754
+    },
+    {
+     "score": 0.3406,
+     "objective": -1850.3381,
+     "service_level": 0.4237,
+     "distance": 62.0063,
+     "stockout_duration": 34.8104,
+     "agree_opt_states": 0.6286
+    },
+    {
+     "score": 0.2299,
+     "objective": -2320.5798,
+     "service_level": 0.2767,
+     "distance": 59.9992,
+     "stockout_duration": 67.0817,
+     "agree_opt_states": 0.5994
+    },
+    {
+     "score": 0.2783,
+     "objective": -2118.6954,
+     "service_level": 0.3399,
+     "distance": 63.4493,
+     "stockout_duration": 50.6012,
+     "agree_opt_states": 0.6354
+    },
+    {
+     "score": 0.0458,
+     "objective": -2583.4765,
+     "service_level": 0.1939,
+     "distance": 37.9958,
+     "stockout_duration": 110.5265,
+     "agree_opt_states": 0.5599
+    },
+    {
+     "score": 0.1476,
+     "objective": -2409.6342,
+     "service_level": 0.2482,
+     "distance": 38.323,
+     "stockout_duration": 94.0511,
+     "agree_opt_states": 0.6124
+    },
+    {
+     "score": 0.3375,
+     "objective": -1921.2658,
+     "service_level": 0.4011,
+     "distance": 47.1669,
+     "stockout_duration": 56.4007,
+     "agree_opt_states": 0.6115
+    },
+    {
+     "score": 0.0597,
+     "objective": -2562.8013,
+     "service_level": 0.2001,
+     "distance": 29.7953,
+     "stockout_duration": 103.2163,
+     "agree_opt_states": 0.5763
+    }
+   ],
+   "figures": [
+    {
+     "src": "results/figures/curves_proposal.png",
+     "caption": "Learning curves, Proposal reward (Fig. 3)"
+    },
+    {
+     "src": "results/figures/init.png",
+     "caption": "Initial-value study (Fig. 6)"
+    },
+    {
+     "src": "results/figures/diagnostics_objective.png",
+     "caption": "Optimism left in the tables (Fig. 5)"
+    },
+    {
+     "src": "results/figures/reward_effect.png",
+     "caption": "Score of every learner under each training reward (Fig. 2)"
+    }
+   ]
+  },
+  "sarsa_lambda_q150": {
+   "label": "SARSA(λ) · Q₀ = −150",
+   "family": "Tabular TD with eligibility traces",
+   "summary": "Applies each TD error to all recently visited state-action pairs through accumulating eligibility traces (lambda = 0.8). The strongest tabular method. This version was trained on the Objective reward starting from Q0 = -150, the best initial value found in the report (Section VI-D).",
+   "update_rule": "delta = r + gamma Q(s',a') - Q(s,a);  e(s,a) += 1;  Q += alpha delta e;  e *= gamma lambda",
+   "config": [
+    [
+     "Training reward",
+     "objective"
+    ],
+    [
+     "Budget",
+     "600 episodes x 200 steps"
+    ],
+    [
+     "Learning rate alpha",
+     0.15
+    ],
+    [
+     "Discount",
+     0.95
+    ],
+    [
+     "Initial Q-value",
+     -150
+    ],
+    [
+     "Exploration",
+     "epsilon 1.0 -> 0.05 over 450 episodes"
+    ],
+    [
+     "lambda",
+     0.8
+    ]
+   ],
+   "layouts": [
+    {
+     "score": 0.7778,
+     "objective": -962.4835,
+     "service_level": 0.7036,
+     "distance": 138.8743,
+     "stockout_duration": 9.0597,
+     "agree_opt_states": 0.5547
+    },
+    {
+     "score": 0.8143,
+     "objective": -772.3013,
+     "service_level": 0.7628,
+     "distance": 132.3668,
+     "stockout_duration": 7.2678,
+     "agree_opt_states": 0.4362
+    },
+    {
+     "score": 0.846,
+     "objective": -504.5627,
+     "service_level": 0.8451,
+     "distance": 88.7914,
+     "stockout_duration": 5.2022,
+     "agree_opt_states": 0.1677
+    },
+    {
+     "score": 0.8007,
+     "objective": -724.182,
+     "service_level": 0.7777,
+     "distance": 129.6768,
+     "stockout_duration": 6.322,
+     "agree_opt_states": 0.4724
+    },
+    {
+     "score": 0.7742,
+     "objective": -1388.5924,
+     "service_level": 0.571,
+     "distance": 158.9078,
+     "stockout_duration": 17.6407,
+     "agree_opt_states": 0.6632
+    },
+    {
+     "score": 0.8295,
+     "objective": -979.8213,
+     "service_level": 0.6986,
+     "distance": 153.2514,
+     "stockout_duration": 8.9471,
+     "agree_opt_states": 0.6503
+    },
+    {
+     "score": 0.7934,
+     "objective": -926.2096,
+     "service_level": 0.7151,
+     "distance": 145.6283,
+     "stockout_duration": 7.4442,
+     "agree_opt_states": 0.5766
+    },
+    {
+     "score": 0.7231,
+     "objective": -1278.2704,
+     "service_level": 0.6052,
+     "distance": 148.5316,
+     "stockout_duration": 15.6411,
+     "agree_opt_states": 0.5916
+    },
+    {
+     "score": 0.7997,
+     "objective": -884.2673,
+     "service_level": 0.7283,
+     "distance": 148.8608,
+     "stockout_duration": 9.4418,
+     "agree_opt_states": 0.5319
+    },
+    {
+     "score": 0.7795,
+     "objective": -1040.1295,
+     "service_level": 0.6794,
+     "distance": 142.5204,
+     "stockout_duration": 11.3479,
+     "agree_opt_states": 0.5466
+    }
+   ],
+   "figures": [
+    {
+     "src": "results/figures/curves_proposal.png",
+     "caption": "Learning curves, Proposal reward (Fig. 3)"
+    },
+    {
+     "src": "results/figures/init.png",
+     "caption": "Initial-value study (Fig. 6)"
+    },
+    {
+     "src": "results/figures/diagnostics_objective.png",
+     "caption": "Optimism left in the tables (Fig. 5)"
+    },
+    {
+     "src": "results/figures/reward_effect.png",
+     "caption": "Score of every learner under each training reward (Fig. 2)"
+    }
+   ]
+  },
+  "qlearning_q150": {
+   "label": "Q-Learning · Q₀ = −150",
+   "family": "Tabular TD (off-policy)",
+   "summary": "Moves Q(s,a) toward r + gamma max Q(s',.). Off-policy, one step at a time. With Q0 = 0 it keeps most of its initial optimism after 120,000 steps and is the weakest TD learner. This version was trained on the Objective reward starting from Q0 = -150, the best initial value found in the report (Section VI-D).",
+   "update_rule": "Q(s,a) <- Q(s,a) + alpha [ r + gamma max_a' Q(s',a') - Q(s,a) ]",
+   "config": [
+    [
+     "Training reward",
+     "objective"
+    ],
+    [
+     "Budget",
+     "600 episodes x 200 steps"
+    ],
+    [
+     "Learning rate alpha",
+     0.15
+    ],
+    [
+     "Discount",
+     0.95
+    ],
+    [
+     "Initial Q-value",
+     -150
+    ],
+    [
+     "Exploration",
+     "epsilon 1.0 -> 0.05 over 450 episodes"
+    ]
+   ],
+   "layouts": [
+    {
+     "score": 0.6809,
+     "objective": -1178.1692,
+     "service_level": 0.6354,
+     "distance": 113.7897,
+     "stockout_duration": 9.8416,
+     "agree_opt_states": 0.3679
+    },
+    {
+     "score": 0.725,
+     "objective": -981.7291,
+     "service_level": 0.6962,
+     "distance": 95.8781,
+     "stockout_duration": 7.4399,
+     "agree_opt_states": 0.3121
+    },
+    {
+     "score": 0.7312,
+     "objective": -799.3592,
+     "service_level": 0.7532,
+     "distance": 95.1409,
+     "stockout_duration": 5.5903,
+     "agree_opt_states": 0.1489
+    },
+    {
+     "score": 0.7001,
+     "objective": -970.2566,
+     "service_level": 0.7004,
+     "distance": 114.3647,
+     "stockout_duration": 7.2916,
+     "agree_opt_states": 0.3569
+    },
+    {
+     "score": 0.6666,
+     "objective": -1572.7609,
+     "service_level": 0.5129,
+     "distance": 141.9047,
+     "stockout_duration": 16.5473,
+     "agree_opt_states": 0.5827
+    },
+    {
+     "score": 0.698,
+     "objective": -1251.4753,
+     "service_level": 0.6132,
+     "distance": 137.3851,
+     "stockout_duration": 10.936,
+     "agree_opt_states": 0.462
+    },
+    {
+     "score": 0.7006,
+     "objective": -1131.9415,
+     "service_level": 0.6499,
+     "distance": 114.8814,
+     "stockout_duration": 9.2264,
+     "agree_opt_states": 0.4272
+    },
+    {
+     "score": 0.6709,
+     "objective": -1380.8057,
+     "service_level": 0.5725,
+     "distance": 128.1675,
+     "stockout_duration": 12.9001,
+     "agree_opt_states": 0.5163
+    },
+    {
+     "score": 0.711,
+     "objective": -1083.3079,
+     "service_level": 0.6648,
+     "distance": 106.7874,
+     "stockout_duration": 8.6211,
+     "agree_opt_states": 0.3995
+    },
+    {
+     "score": 0.5795,
+     "objective": -1463.2735,
+     "service_level": 0.5457,
+     "distance": 93.9583,
+     "stockout_duration": 14.4727,
+     "agree_opt_states": 0.4214
+    }
+   ],
+   "figures": [
+    {
+     "src": "results/figures/curves_proposal.png",
+     "caption": "Learning curves, Proposal reward (Fig. 3)"
+    },
+    {
+     "src": "results/figures/init.png",
+     "caption": "Initial-value study (Fig. 6)"
+    },
+    {
+     "src": "results/figures/diagnostics_objective.png",
+     "caption": "Optimism left in the tables (Fig. 5)"
+    },
+    {
+     "src": "results/figures/reward_effect.png",
+     "caption": "Score of every learner under each training reward (Fig. 2)"
+    }
+   ]
+  }
+ },
+ "environment": [
+  [
+   "Store",
+   "4 x 4 grid, depot at (0, 0), two shelves of capacity 3"
+  ],
+  [
+   "Robot",
+   "carries 2 units; 7 actions (4 moves, restock, reload, wait)"
+  ],
+  [
+   "Demand",
+   "each stocked shelf loses a unit with probability 0.12 per step"
+  ],
+  [
+   "Episode",
+   "200 steps; the cut is a time limit, not a terminal state"
+  ],
+  [
+   "Objective reward",
+   "-8 per empty shelf per step, -0.1 per move"
+  ],
+  [
+   "Score",
+   "0 = uniform-random policy, 1 = best achievable 200-step behaviour"
+  ],
+  [
+   "Metrics",
+   "exact expected values over a 200-step episode (no sampling noise)"
+  ]
+ ]
+}
