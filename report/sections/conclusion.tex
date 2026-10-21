@@ -1,0 +1,8 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+The small store was most useful as a measuring instrument. The exact optimum showed that the original reward's shaping term can be gamed and that its optimal policy does game it, but also that this costs very little, and it located the travel price at which availability starts to be traded for energy. Against the same optimum, DQN trained on the original reward came within a few percent of the best possible behaviour, and the extra terms that slightly bend the optimum are what made it learn that well within the budget. For the tabular learners the starting Q-value mattered more than the reward. Through Wiewiora's equivalence, the same fact explains why potential-based shaping barely changed them. Without exact values to compare the tables against, this would have looked like a difference between rewards.
+
+In practice this suggests checking, on a solvable version of a problem, whether a shaped reward moves the optimum before trusting it; treating the initial value of a tabular learner as a design decision, since zero is optimistic whenever every reward is a cost; and evaluating policy-gradient agents with their stochastic policies.
+
+The natural next steps are to make demand depend on the time of day, so that the clock in the observation carries information; to grow the store until exact solution becomes impossible, and test whether a model-free estimate of the initial value can replace the one read here from $V^\ast$; and to compare learned policies with the travel-time bound on larger layouts, where no exact optimum is available.

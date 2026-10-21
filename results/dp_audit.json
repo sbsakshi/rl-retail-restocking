@@ -1,0 +1,2032 @@
+[
+ {
+  "layout": 0,
+  "shelves": [
+   [
+    3,
+    0
+   ],
+   [
+    2,
+    2
+   ]
+  ],
+  "n_states": 768,
+  "vi_pi": {
+   "vi_sweeps": 471,
+   "vi_seconds": 0.02609109878540039,
+   "pi_iterations": 14,
+   "pi_seconds": 0.043527841567993164,
+   "max_value_gap": 1.8173977878177539e-09,
+   "same_action": 0.9166666666666666,
+   "pi_action_optimal_for_vi": 1.0,
+   "states_with_ties": 293
+  },
+  "finite_horizon_optimum": -468.129146139716,
+  "random": {
+   "objective": -2693.1779498965,
+   "service_level": 0.16104483708591522,
+   "distance": 85.21428571428508,
+   "restocks": 1.137806305978069,
+   "proactive_share": 0.13344285914632156,
+   "load_factor": 0.9520008123509033,
+   "stockout_duration": 114.61180525670922
+  },
+  "rewards": {
+   "proposal": {
+    "objective": -484.3781675105348,
+    "service_level": 0.8535167543518868,
+    "distance": 156.31781436572436,
+    "restocks": 23.94106079344423,
+    "proactive_share": 0.6042762386759788,
+    "load_factor": 0.8229605254534942,
+    "stockout_duration": 5.967852305090527,
+    "score": 0.9926972292277887,
+    "optimal_for_objective": 0.9609375
+   },
+   "proposal without closer bonus": {
+    "objective": -481.9588531563454,
+    "service_level": 0.8541533954714817,
+    "distance": 152.49718665086888,
+    "restocks": 23.959127030275365,
+    "proactive_share": 0.6058233946492484,
+    "load_factor": 0.8230279401817742,
+    "stockout_duration": 5.960631639991712,
+    "score": 0.9937845376724864,
+    "optimal_for_objective": 0.9596354166666666
+   },
+   "objective + restock bonus": {
+    "objective": -481.9588531563454,
+    "service_level": 0.8541533954714817,
+    "distance": 152.49718665086888,
+    "restocks": 23.959127030275365,
+    "proactive_share": 0.6058233946492484,
+    "load_factor": 0.8230279401817742,
+    "stockout_duration": 5.960631639991712,
+    "score": 0.9937845376724864,
+    "optimal_for_objective": 0.9596354166666666
+   },
+   "objective + closer bonus": {
+    "objective": -483.27645215953817,
+    "service_level": 0.8538681821631433,
+    "distance": 156.54635081596774,
+    "restocks": 23.618054477610322,
+    "proactive_share": 0.5987030046652461,
+    "load_factor": 0.8344950673752731,
+    "stockout_duration": 5.951787092216172,
+    "score": 0.9931923713339467,
+    "optimal_for_objective": 0.9674479166666666
+   },
+   "objective": {
+    "objective": -476.2539649888399,
+    "service_level": 0.855869189484041,
+    "distance": 150.35371337771062,
+    "restocks": 23.38552274810155,
+    "proactive_share": 0.596754796613978,
+    "load_factor": 0.8448533749864943,
+    "stockout_duration": 5.9013459093555305,
+    "score": 0.9963484761163863,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs": {
+    "objective": -476.25396498883987,
+    "service_level": 0.855869189484041,
+    "distance": 150.35371337771065,
+    "restocks": 23.385522748101547,
+    "proactive_share": 0.596754796613978,
+    "load_factor": 0.8448533749864944,
+    "stockout_duration": 5.90134590935553,
+    "score": 0.9963484761163863,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs_stock": {
+    "objective": -476.2539649888399,
+    "service_level": 0.855869189484041,
+    "distance": 150.35371337771065,
+    "restocks": 23.38552274810155,
+    "proactive_share": 0.596754796613978,
+    "load_factor": 0.8448533749864943,
+    "stockout_duration": 5.9013459093555305,
+    "score": 0.9963484761163863,
+    "optimal_for_objective": 1.0
+   }
+  },
+  "gamma": {
+   "0.8": {
+    "objective": -491.64273730097193,
+    "score": 0.9894323256543607,
+    "service_level": 0.8509013508154946,
+    "distance": 145.27059910554453
+   },
+   "0.9": {
+    "objective": -479.24294815046585,
+    "score": 0.9950051423627269,
+    "service_level": 0.8548525307885232,
+    "distance": 147.71046673740074
+   },
+   "0.95": {
+    "objective": -476.2539649888399,
+    "score": 0.9963484761163863,
+    "service_level": 0.855869189484041,
+    "distance": 150.35371337771062
+   },
+   "0.98": {
+    "objective": -475.95486779195767,
+    "score": 0.9964828988743847,
+    "service_level": 0.8560070654405549,
+    "distance": 151.77477201733203
+   },
+   "0.99": {
+    "objective": -471.1562130526453,
+    "score": 0.9986395503290451,
+    "service_level": 0.85749736711413,
+    "distance": 151.47787817861428
+   }
+  },
+  "frontier": [
+   {
+    "move_cost": 0.0,
+    "service_level": 0.8559814442843938,
+    "distance": 151.7780069583787
+   },
+   {
+    "move_cost": 0.05,
+    "service_level": 0.8559814442843938,
+    "distance": 151.7780069583787
+   },
+   {
+    "move_cost": 0.1,
+    "service_level": 0.855869189484041,
+    "distance": 150.35371337771062
+   },
+   {
+    "move_cost": 0.2,
+    "service_level": 0.855869189484041,
+    "distance": 150.35371337771062
+   },
+   {
+    "move_cost": 0.5,
+    "service_level": 0.8539756155583655,
+    "distance": 145.1567848741385
+   },
+   {
+    "move_cost": 1.0,
+    "service_level": 0.8539756155583655,
+    "distance": 145.1567848741385
+   },
+   {
+    "move_cost": 2.0,
+    "service_level": 0.8401922789774964,
+    "distance": 134.60315145996432
+   },
+   {
+    "move_cost": 3.0,
+    "service_level": 0.8386507068371535,
+    "distance": 134.28330374927054
+   },
+   {
+    "move_cost": 4.0,
+    "service_level": 0.833319925866934,
+    "distance": 133.25457300784834
+   },
+   {
+    "move_cost": 6.0,
+    "service_level": 0.7695001361925311,
+    "distance": 120.75927590411698
+   },
+   {
+    "move_cost": 8.0,
+    "service_level": 0.6202495427970509,
+    "distance": 90.79044248853168
+   }
+  ],
+  "service_bound": 1.0
+ },
+ {
+  "layout": 1,
+  "shelves": [
+   [
+    1,
+    3
+   ],
+   [
+    2,
+    0
+   ]
+  ],
+  "n_states": 768,
+  "vi_pi": {
+   "vi_sweeps": 464,
+   "vi_seconds": 0.025816917419433594,
+   "pi_iterations": 14,
+   "pi_seconds": 0.0427701473236084,
+   "max_value_gap": 1.816218286876392e-09,
+   "same_action": 0.9309895833333334,
+   "pi_action_optimal_for_vi": 1.0,
+   "states_with_ties": 287
+  },
+  "finite_horizon_optimum": -336.5589201961147,
+  "random": {
+   "objective": -2682.4955012690452,
+   "service_level": 0.1643831022819946,
+   "distance": 85.21428571428508,
+   "restocks": 1.2443631403844513,
+   "proactive_share": 0.15833936102761595,
+   "load_factor": 0.9397908289282616,
+   "stockout_duration": 111.94671645628233
+  },
+  "rewards": {
+   "proposal": {
+    "objective": -345.4228300423961,
+    "service_level": 0.8968437532648234,
+    "distance": 153.2284048983098,
+    "restocks": 25.89210549095896,
+    "proactive_share": 0.7076850784962951,
+    "load_factor": 0.8057659329374401,
+    "stockout_duration": 5.288653499931844,
+    "score": 0.9962215901666757,
+    "optimal_for_objective": 0.9583333333333334
+   },
+   "proposal without closer bonus": {
+    "objective": -347.1125938062908,
+    "service_level": 0.8961238914609926,
+    "distance": 147.09046481467047,
+    "restocks": 26.523690771258998,
+    "proactive_share": 0.721092502501782,
+    "load_factor": 0.7862126542089753,
+    "stockout_duration": 5.443282040054142,
+    "score": 0.9955012962859595,
+    "optimal_for_objective": 0.9583333333333334
+   },
+   "objective + restock bonus": {
+    "objective": -347.1125938062908,
+    "service_level": 0.8961238914609926,
+    "distance": 147.09046481467047,
+    "restocks": 26.523690771258998,
+    "proactive_share": 0.721092502501782,
+    "load_factor": 0.7862126542089753,
+    "stockout_duration": 5.443282040054142,
+    "score": 0.9955012962859595,
+    "optimal_for_objective": 0.9583333333333334
+   },
+   "objective + closer bonus": {
+    "objective": -355.5813771365289,
+    "service_level": 0.8936879350995001,
+    "distance": 153.82769454929047,
+    "restocks": 25.232431742362312,
+    "proactive_share": 0.6685481455270116,
+    "load_factor": 0.8236454148316995,
+    "stockout_duration": 4.941498426046954,
+    "score": 0.9918913166306849,
+    "optimal_for_objective": 0.9609375
+   },
+   "objective": {
+    "objective": -337.7403018517741,
+    "service_level": 0.8989360406582775,
+    "distance": 143.35631958261988,
+    "restocks": 25.945890521096203,
+    "proactive_share": 0.7158661685482273,
+    "load_factor": 0.8064322899785772,
+    "stockout_duration": 5.317964983995373,
+    "score": 0.9994964136434075,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs": {
+    "objective": -337.7403018517741,
+    "service_level": 0.8989360406582775,
+    "distance": 143.35631958261988,
+    "restocks": 25.94589052109621,
+    "proactive_share": 0.7158661685482273,
+    "load_factor": 0.8064322899785772,
+    "stockout_duration": 5.317964983995373,
+    "score": 0.9994964136434075,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs_stock": {
+    "objective": -337.7403018517741,
+    "service_level": 0.8989360406582775,
+    "distance": 143.35631958261988,
+    "restocks": 25.94589052109621,
+    "proactive_share": 0.7158661685482273,
+    "load_factor": 0.8064322899785772,
+    "stockout_duration": 5.317964983995373,
+    "score": 0.9994964136434075,
+    "optimal_for_objective": 1.0
+   }
+  },
+  "gamma": {
+   "0.8": {
+    "objective": -372.5208218377875,
+    "score": 0.9846705567696015,
+    "service_level": 0.8878778682369762,
+    "distance": 137.30000196111547
+   },
+   "0.9": {
+    "objective": -354.41533863874656,
+    "score": 0.9923883626749769,
+    "service_level": 0.8936719673559644,
+    "distance": 141.65634177832823
+   },
+   "0.95": {
+    "objective": -337.7403018517741,
+    "score": 0.9994964136434075,
+    "service_level": 0.8989360406582775,
+    "distance": 143.35631958261988
+   },
+   "0.98": {
+    "objective": -337.48029149203273,
+    "score": 0.9996072479949578,
+    "service_level": 0.8990166919058529,
+    "distance": 143.3370559076191
+   },
+   "0.99": {
+    "objective": -337.48029149203273,
+    "score": 0.9996072479949578,
+    "service_level": 0.8990166919058529,
+    "distance": 143.3370559076191
+   }
+  },
+  "frontier": [
+   {
+    "move_cost": 0.0,
+    "service_level": 0.8989904420244977,
+    "distance": 145.19591581384194
+   },
+   {
+    "move_cost": 0.05,
+    "service_level": 0.8989360406582775,
+    "distance": 143.35631958261988
+   },
+   {
+    "move_cost": 0.1,
+    "service_level": 0.8989360406582775,
+    "distance": 143.35631958261988
+   },
+   {
+    "move_cost": 0.2,
+    "service_level": 0.8986660294829489,
+    "distance": 140.84586273401527
+   },
+   {
+    "move_cost": 0.5,
+    "service_level": 0.8978167211893135,
+    "distance": 137.0372174543097
+   },
+   {
+    "move_cost": 1.0,
+    "service_level": 0.8965268700980507,
+    "distance": 134.4407452389677
+   },
+   {
+    "move_cost": 2.0,
+    "service_level": 0.8834987116064211,
+    "distance": 122.2966710402246
+   },
+   {
+    "move_cost": 3.0,
+    "service_level": 0.877059173031868,
+    "distance": 119.438691400459
+   },
+   {
+    "move_cost": 4.0,
+    "service_level": 0.8738006195642706,
+    "distance": 118.81666232631535
+   },
+   {
+    "move_cost": 6.0,
+    "service_level": 0.8044049129770376,
+    "distance": 104.37258788241854
+   },
+   {
+    "move_cost": 8.0,
+    "service_level": 0.7183231844893506,
+    "distance": 86.31702820148996
+   }
+  ],
+  "service_bound": 1.0
+ },
+ {
+  "layout": 2,
+  "shelves": [
+   [
+    1,
+    0
+   ],
+   [
+    3,
+    0
+   ]
+  ],
+  "n_states": 768,
+  "vi_pi": {
+   "vi_sweeps": 441,
+   "vi_seconds": 0.024525165557861328,
+   "pi_iterations": 13,
+   "pi_seconds": 0.03985309600830078,
+   "max_value_gap": 1.8968648873851635e-09,
+   "same_action": 0.9388020833333334,
+   "pi_action_optimal_for_vi": 1.0,
+   "states_with_ties": 242
+  },
+  "finite_horizon_optimum": -109.12127884057679,
+  "random": {
+   "objective": -2676.9314185987214,
+   "service_level": 0.16612187811647106,
+   "distance": 85.21428571428505,
+   "restocks": 1.3338390198698475,
+   "proactive_share": 0.2194297356297097,
+   "load_factor": 0.9114142488156053,
+   "stockout_duration": 112.19446256577292
+  },
+  "rewards": {
+   "proposal": {
+    "objective": -119.21469342010394,
+    "service_level": 0.9671334355734162,
+    "distance": 140.41687255035853,
+    "restocks": 34.50077588948416,
+    "proactive_share": 0.892896206172504,
+    "load_factor": 0.6606063084529913,
+    "stockout_duration": 3.489620829842431,
+    "score": 0.9960692519967703,
+    "optimal_for_objective": 0.97265625
+   },
+   "proposal without closer bonus": {
+    "objective": -116.80541370274824,
+    "service_level": 0.9674084142885859,
+    "distance": 125.12339426223122,
+    "restocks": 34.60250556442112,
+    "proactive_share": 0.8936417692075868,
+    "load_factor": 0.6589050147907746,
+    "stockout_duration": 3.474655476632826,
+    "score": 0.997007514401787,
+    "optimal_for_objective": 0.984375
+   },
+   "objective + restock bonus": {
+    "objective": -116.80541370274824,
+    "service_level": 0.9674084142885859,
+    "distance": 125.12339426223122,
+    "restocks": 34.60250556442112,
+    "proactive_share": 0.8936417692075868,
+    "load_factor": 0.6589050147907746,
+    "stockout_duration": 3.474655476632826,
+    "score": 0.997007514401787,
+    "optimal_for_objective": 0.984375
+   },
+   "objective + closer bonus": {
+    "objective": -128.00882354565607,
+    "service_level": 0.9644207280919272,
+    "distance": 141.55153439823403,
+    "restocks": 33.64543101394344,
+    "proactive_share": 0.8742938350871043,
+    "load_factor": 0.6751910010489545,
+    "stockout_duration": 3.3039367343345214,
+    "score": 0.9926444932930836,
+    "optimal_for_objective": 0.9778645833333334
+   },
+   "objective": {
+    "objective": -111.07659748031952,
+    "service_level": 0.969046413108725,
+    "distance": 120.25119428239329,
+    "restocks": 33.282008713213806,
+    "proactive_share": 0.882577041913591,
+    "load_factor": 0.6858665729587642,
+    "stockout_duration": 3.1140102405586516,
+    "score": 0.999238526786125,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs": {
+    "objective": -111.07659748031952,
+    "service_level": 0.969046413108725,
+    "distance": 120.25119428239329,
+    "restocks": 33.282008713213806,
+    "proactive_share": 0.882577041913591,
+    "load_factor": 0.6858665729587642,
+    "stockout_duration": 3.1140102405586516,
+    "score": 0.999238526786125,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs_stock": {
+    "objective": -111.07659748031952,
+    "service_level": 0.969046413108725,
+    "distance": 120.25119428239329,
+    "restocks": 33.282008713213806,
+    "proactive_share": 0.882577041913591,
+    "load_factor": 0.6858665729587642,
+    "stockout_duration": 3.1140102405586516,
+    "score": 0.999238526786125,
+    "optimal_for_objective": 1.0
+   }
+  },
+  "gamma": {
+   "0.8": {
+    "objective": -131.06469809257572,
+    "score": 0.9914544230072767,
+    "service_level": 0.9622936445103921,
+    "distance": 104.04360525830418
+   },
+   "0.9": {
+    "objective": -114.37249239439711,
+    "score": 0.9979549837145222,
+    "service_level": 0.9676279010268866,
+    "distance": 107.8177568043404
+   },
+   "0.95": {
+    "objective": -111.07659748031952,
+    "score": 0.999238526786125,
+    "service_level": 0.969046413108725,
+    "distance": 120.25119428239329
+   },
+   "0.98": {
+    "objective": -109.62384566670647,
+    "score": 0.9998042819372241,
+    "service_level": 0.9694944419300731,
+    "distance": 120.06059842940178
+   },
+   "0.99": {
+    "objective": -109.62384566670647,
+    "score": 0.9998042819372241,
+    "service_level": 0.9694944419300731,
+    "distance": 120.06059842940178
+   }
+  },
+  "frontier": [
+   {
+    "move_cost": 0.0,
+    "service_level": 0.969046413108725,
+    "distance": 120.25119428239329
+   },
+   {
+    "move_cost": 0.05,
+    "service_level": 0.969046413108725,
+    "distance": 120.25119428239329
+   },
+   {
+    "move_cost": 0.1,
+    "service_level": 0.969046413108725,
+    "distance": 120.25119428239329
+   },
+   {
+    "move_cost": 0.2,
+    "service_level": 0.9679684048480626,
+    "distance": 106.86884229978911
+   },
+   {
+    "move_cost": 0.5,
+    "service_level": 0.9679684048480626,
+    "distance": 106.86884229978911
+   },
+   {
+    "move_cost": 1.0,
+    "service_level": 0.9664178616370805,
+    "distance": 102.63348883804778
+   },
+   {
+    "move_cost": 2.0,
+    "service_level": 0.9546309033021537,
+    "distance": 90.43787576210549
+   },
+   {
+    "move_cost": 3.0,
+    "service_level": 0.9464250105736951,
+    "distance": 87.43983798727955
+   },
+   {
+    "move_cost": 4.0,
+    "service_level": 0.9440678144056294,
+    "distance": 87.06384667622663
+   },
+   {
+    "move_cost": 6.0,
+    "service_level": 0.918143048675362,
+    "distance": 83.22161280368661
+   },
+   {
+    "move_cost": 8.0,
+    "service_level": 0.8730210573982481,
+    "distance": 76.37627962977976
+   }
+  ],
+  "service_bound": 1.0
+ },
+ {
+  "layout": 3,
+  "shelves": [
+   [
+    0,
+    2
+   ],
+   [
+    3,
+    0
+   ]
+  ],
+  "n_states": 768,
+  "vi_pi": {
+   "vi_sweeps": 456,
+   "vi_seconds": 0.025352954864501953,
+   "pi_iterations": 13,
+   "pi_seconds": 0.039839982986450195,
+   "max_value_gap": 1.8492301023798063e-09,
+   "same_action": 0.8802083333333334,
+   "pi_action_optimal_for_vi": 1.0,
+   "states_with_ties": 305
+  },
+  "finite_horizon_optimum": -236.24696054898206,
+  "random": {
+   "objective": -2683.952056815212,
+   "service_level": 0.16392792867381745,
+   "distance": 85.21428571428507,
+   "restocks": 1.2366964806247773,
+   "proactive_share": 0.16705233452839785,
+   "load_factor": 0.9362310708744996,
+   "stockout_duration": 112.67771081371733
+  },
+  "rewards": {
+   "proposal": {
+    "objective": -244.4514033474273,
+    "service_level": 0.9282274391110378,
+    "distance": 147.79208502748068,
+    "restocks": 27.87369404591291,
+    "proactive_share": 0.7578535250927543,
+    "load_factor": 0.7796501792843418,
+    "stockout_duration": 4.155783522884729,
+    "score": 0.9966481081356734,
+    "optimal_for_objective": 0.9583333333333334
+   },
+   "proposal without closer bonus": {
+    "objective": -238.6673117608292,
+    "service_level": 0.9294528576017383,
+    "distance": 129.16456086391986,
+    "restocks": 28.021201388867908,
+    "proactive_share": 0.7668455017435775,
+    "load_factor": 0.7767241410801764,
+    "stockout_duration": 4.218315114170439,
+    "score": 0.9990111753186528,
+    "optimal_for_objective": 0.953125
+   },
+   "objective + restock bonus": {
+    "objective": -238.6673117608292,
+    "service_level": 0.9294528576017383,
+    "distance": 129.16456086391986,
+    "restocks": 28.021201388867908,
+    "proactive_share": 0.7668455017435775,
+    "load_factor": 0.7767241410801764,
+    "stockout_duration": 4.218315114170439,
+    "score": 0.9990111753186528,
+    "optimal_for_objective": 0.953125
+   },
+   "objective + closer bonus": {
+    "objective": -251.23298123550381,
+    "service_level": 0.9261425912148314,
+    "distance": 148.89273122964542,
+    "restocks": 27.161954085242108,
+    "proactive_share": 0.7433532785114556,
+    "load_factor": 0.7978592470728555,
+    "stockout_duration": 4.141065830699015,
+    "score": 0.9938775219656233,
+    "optimal_for_objective": 0.9596354166666666
+   },
+   "objective": {
+    "objective": -237.0828839647915,
+    "service_level": 0.9299602385595778,
+    "distance": 129.55647355440328,
+    "restocks": 27.69603667982188,
+    "proactive_share": 0.7609095602901776,
+    "load_factor": 0.7861710097114888,
+    "stockout_duration": 4.133808492823227,
+    "score": 0.9996584868752838,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs": {
+    "objective": -237.0828839647915,
+    "service_level": 0.9299602385595778,
+    "distance": 129.55647355440328,
+    "restocks": 27.69603667982188,
+    "proactive_share": 0.7609095602901776,
+    "load_factor": 0.7861710097114888,
+    "stockout_duration": 4.133808492823227,
+    "score": 0.9996584868752838,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs_stock": {
+    "objective": -237.0828839647915,
+    "service_level": 0.9299602385595778,
+    "distance": 129.55647355440328,
+    "restocks": 27.69603667982188,
+    "proactive_share": 0.7609095602901776,
+    "load_factor": 0.7861710097114888,
+    "stockout_duration": 4.133808492823227,
+    "score": 0.9996584868752838,
+    "optimal_for_objective": 1.0
+   }
+  },
+  "gamma": {
+   "0.8": {
+    "objective": -245.27639084832168,
+    "score": 0.9963110628346882,
+    "service_level": 0.9271890568939909,
+    "distance": 122.81372909092656
+   },
+   "0.9": {
+    "objective": -237.0828839647915,
+    "score": 0.9996584868752838,
+    "service_level": 0.9299602385595778,
+    "distance": 129.55647355440328
+   },
+   "0.95": {
+    "objective": -237.0828839647915,
+    "score": 0.9996584868752838,
+    "service_level": 0.9299602385595778,
+    "distance": 129.55647355440328
+   },
+   "0.98": {
+    "objective": -236.97143434989454,
+    "score": 0.9997040191639026,
+    "service_level": 0.9299944712191113,
+    "distance": 129.53742251050593
+   },
+   "0.99": {
+    "objective": -236.97143434989454,
+    "score": 0.9997040191639026,
+    "service_level": 0.9299944712191113,
+    "distance": 129.53742251050593
+   }
+  },
+  "frontier": [
+   {
+    "move_cost": 0.0,
+    "service_level": 0.9300659429844771,
+    "distance": 133.63583711802232
+   },
+   {
+    "move_cost": 0.05,
+    "service_level": 0.9299602385595778,
+    "distance": 129.55647355440328
+   },
+   {
+    "move_cost": 0.1,
+    "service_level": 0.9299602385595778,
+    "distance": 129.55647355440328
+   },
+   {
+    "move_cost": 0.2,
+    "service_level": 0.9299602385595778,
+    "distance": 129.55647355440328
+   },
+   {
+    "move_cost": 0.5,
+    "service_level": 0.9281256294540934,
+    "distance": 122.09952209116614
+   },
+   {
+    "move_cost": 1.0,
+    "service_level": 0.9281635440197312,
+    "distance": 122.0729708181068
+   },
+   {
+    "move_cost": 2.0,
+    "service_level": 0.9116757279391535,
+    "distance": 108.50150722748212
+   },
+   {
+    "move_cost": 3.0,
+    "service_level": 0.901382505036673,
+    "distance": 104.3260383994774
+   },
+   {
+    "move_cost": 4.0,
+    "service_level": 0.901382505036673,
+    "distance": 104.3260383994774
+   },
+   {
+    "move_cost": 6.0,
+    "service_level": 0.8810576508607756,
+    "distance": 101.28369657533295
+   },
+   {
+    "move_cost": 8.0,
+    "service_level": 0.8480672845480575,
+    "distance": 96.5528772715605
+   }
+  ],
+  "service_bound": 1.0
+ },
+ {
+  "layout": 4,
+  "shelves": [
+   [
+    2,
+    3
+   ],
+   [
+    3,
+    3
+   ]
+  ],
+  "n_states": 768,
+  "vi_pi": {
+   "vi_sweeps": 487,
+   "vi_seconds": 0.027086973190307617,
+   "pi_iterations": 18,
+   "pi_seconds": 0.05371713638305664,
+   "max_value_gap": 1.7926993223227328e-09,
+   "same_action": 0.9583333333333334,
+   "pi_action_optimal_for_vi": 1.0,
+   "states_with_ties": 298
+  },
+  "finite_horizon_optimum": -1002.0214151561008,
+  "random": {
+   "objective": -2714.124367643275,
+   "service_level": 0.15449908154004788,
+   "distance": 85.2142857142851,
+   "restocks": 0.9429181924395641,
+   "proactive_share": 0.0926853165808615,
+   "load_factor": 0.9699766221429797,
+   "stockout_duration": 120.65801416319758
+  },
+  "rewards": {
+   "proposal": {
+    "objective": -1041.8532431929868,
+    "service_level": 0.6796834307552382,
+    "distance": 168.4022160974894,
+    "restocks": 17.060583984818503,
+    "proactive_share": 0.33773264923032115,
+    "load_factor": 0.8797803585620397,
+    "stockout_duration": 10.59820221905058,
+    "score": 0.9767351443562303,
+    "optimal_for_objective": 0.9544270833333334
+   },
+   "proposal without closer bonus": {
+    "objective": -1041.3798532754595,
+    "service_level": 0.6797052689421677,
+    "distance": 164.36713890395757,
+    "restocks": 17.06301059797714,
+    "proactive_share": 0.3378178423897459,
+    "load_factor": 0.8797464607771488,
+    "stockout_duration": 10.59796378071338,
+    "score": 0.977011640531206,
+    "optimal_for_objective": 0.9583333333333334
+   },
+   "objective + restock bonus": {
+    "objective": -1041.3798532754595,
+    "service_level": 0.6797052689421677,
+    "distance": 164.36713890395757,
+    "restocks": 17.06301059797714,
+    "proactive_share": 0.3378178423897459,
+    "load_factor": 0.8797464607771488,
+    "stockout_duration": 10.59796378071338,
+    "score": 0.977011640531206,
+    "optimal_for_objective": 0.9583333333333334
+   },
+   "objective + closer bonus": {
+    "objective": -1032.9589483636632,
+    "service_level": 0.6824787858304506,
+    "distance": 168.91063021105194,
+    "restocks": 16.488411513802582,
+    "proactive_share": 0.31946374886690493,
+    "load_factor": 0.914857799613693,
+    "stockout_duration": 10.582537023117695,
+    "score": 0.9819300976249008,
+    "optimal_for_objective": 0.9700520833333334
+   },
+   "objective": {
+    "objective": -1031.3786911698444,
+    "service_level": 0.6828460539174452,
+    "distance": 164.86063705669193,
+    "restocks": 16.424523702796108,
+    "proactive_share": 0.31688771964609097,
+    "load_factor": 0.9191169739513194,
+    "stockout_duration": 10.574100234899493,
+    "score": 0.9828530895463405,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs": {
+    "objective": -1031.3786911698444,
+    "service_level": 0.6828460539174452,
+    "distance": 164.86063705669187,
+    "restocks": 16.424523702796108,
+    "proactive_share": 0.31688771964609097,
+    "load_factor": 0.9191169739513192,
+    "stockout_duration": 10.57410023489949,
+    "score": 0.9828530895463405,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs_stock": {
+    "objective": -1031.3786911698444,
+    "service_level": 0.6828460539174452,
+    "distance": 164.8606370566919,
+    "restocks": 16.424523702796108,
+    "proactive_share": 0.31688771964609097,
+    "load_factor": 0.9191169739513194,
+    "stockout_duration": 10.574100234899493,
+    "score": 0.9828530895463405,
+    "optimal_for_objective": 1.0
+   }
+  },
+  "gamma": {
+   "0.8": {
+    "objective": -1067.8114661850677,
+    "score": 0.961573542681301,
+    "service_level": 0.6713511275796251,
+    "distance": 161.3507443986835
+   },
+   "0.9": {
+    "objective": -1032.2056825024251,
+    "score": 0.9823700629086145,
+    "service_level": 0.6825741705574192,
+    "distance": 164.43028286166313
+   },
+   "0.95": {
+    "objective": -1031.3786911698444,
+    "score": 0.9828530895463405,
+    "service_level": 0.6828460539174452,
+    "distance": 164.86063705669193
+   },
+   "0.98": {
+    "objective": -1031.3786911698444,
+    "score": 0.9828530895463405,
+    "service_level": 0.6828460539174452,
+    "distance": 164.86063705669193
+   },
+   "0.99": {
+    "objective": -1009.6126625424843,
+    "score": 0.9955661268060103,
+    "service_level": 0.6896322799630774,
+    "distance": 164.35958424331727
+   }
+  },
+  "frontier": [
+   {
+    "move_cost": 0.0,
+    "service_level": 0.6828389344854487,
+    "distance": 165.17736887047903
+   },
+   {
+    "move_cost": 0.05,
+    "service_level": 0.6828460539174452,
+    "distance": 164.86063705669193
+   },
+   {
+    "move_cost": 0.1,
+    "service_level": 0.6828460539174452,
+    "distance": 164.86063705669193
+   },
+   {
+    "move_cost": 0.2,
+    "service_level": 0.6827985070042422,
+    "distance": 164.53113606264674
+   },
+   {
+    "move_cost": 0.5,
+    "service_level": 0.6827985070042422,
+    "distance": 164.53113606264674
+   },
+   {
+    "move_cost": 1.0,
+    "service_level": 0.6825741705574192,
+    "distance": 164.43028286166313
+   },
+   {
+    "move_cost": 2.0,
+    "service_level": 0.6809925063459271,
+    "distance": 163.94774401391194
+   },
+   {
+    "move_cost": 3.0,
+    "service_level": 0.6699750256878839,
+    "distance": 160.222673819653
+   },
+   {
+    "move_cost": 4.0,
+    "service_level": 0.6368674145734248,
+    "distance": 150.51609624751086
+   },
+   {
+    "move_cost": 6.0,
+    "service_level": 0.16032624001121276,
+    "distance": 5.414772906683071
+   },
+   {
+    "move_cost": 8.0,
+    "service_level": 0.1594284744583827,
+    "distance": 5.372246818665606
+   }
+  ],
+  "service_bound": 0.8065476190476191
+ },
+ {
+  "layout": 5,
+  "shelves": [
+   [
+    3,
+    1
+   ],
+   [
+    2,
+    2
+   ]
+  ],
+  "n_states": 768,
+  "vi_pi": {
+   "vi_sweeps": 477,
+   "vi_seconds": 0.026484012603759766,
+   "pi_iterations": 18,
+   "pi_seconds": 0.05333828926086426,
+   "max_value_gap": 1.8176820049120579e-09,
+   "same_action": 0.8919270833333334,
+   "pi_action_optimal_for_vi": 1.0,
+   "states_with_ties": 331
+  },
+  "finite_horizon_optimum": -627.5019113768368,
+  "random": {
+   "objective": -2693.80930985169,
+   "service_level": 0.1608475370999184,
+   "distance": 85.21428571428507,
+   "restocks": 1.127756487022836,
+   "proactive_share": 0.12422057278979025,
+   "load_factor": 0.9559749133079332,
+   "stockout_duration": 114.5462501466022
+  },
+  "rewards": {
+   "proposal": {
+    "objective": -634.6083601876184,
+    "service_level": 0.8067018547468467,
+    "distance": 160.54295377527848,
+    "restocks": 21.52053512583951,
+    "proactive_share": 0.5168067508745214,
+    "load_factor": 0.8565529306449184,
+    "stockout_duration": 7.118251954840344,
+    "score": 0.9965607978677195,
+    "optimal_for_objective": 0.9752604166666666
+   },
+   "proposal without closer bonus": {
+    "objective": -633.4564546229574,
+    "service_level": 0.8067809050472244,
+    "distance": 151.55350774075507,
+    "restocks": 21.52320362401268,
+    "proactive_share": 0.5169954891597435,
+    "load_factor": 0.8565304406401096,
+    "stockout_duration": 7.117019329759786,
+    "score": 0.9971182684384153,
+    "optimal_for_objective": 0.9817708333333334
+   },
+   "objective + restock bonus": {
+    "objective": -633.4564546229574,
+    "service_level": 0.8067809050472244,
+    "distance": 151.55350774075507,
+    "restocks": 21.52320362401268,
+    "proactive_share": 0.5169954891597435,
+    "load_factor": 0.8565304406401096,
+    "stockout_duration": 7.117019329759786,
+    "score": 0.9971182684384153,
+    "optimal_for_objective": 0.9817708333333334
+   },
+   "objective + closer bonus": {
+    "objective": -638.9172635440035,
+    "service_level": 0.8053654797820181,
+    "distance": 160.8679884646167,
+    "restocks": 21.228023823876082,
+    "proactive_share": 0.5010147016073235,
+    "load_factor": 0.8670289875507228,
+    "stockout_duration": 7.042411003307824,
+    "score": 0.9944754821206212,
+    "optimal_for_objective": 0.9765625
+   },
+   "objective": {
+    "objective": -633.0885326094586,
+    "service_level": 0.807045465133273,
+    "distance": 156.34021035932182,
+    "restocks": 21.307261965624598,
+    "proactive_share": 0.5066839022491086,
+    "load_factor": 0.8655703944924146,
+    "stockout_duration": 7.033573169725077,
+    "score": 0.9972963261725989,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs": {
+    "objective": -633.0885326094586,
+    "service_level": 0.807045465133273,
+    "distance": 156.34021035932176,
+    "restocks": 21.307261965624598,
+    "proactive_share": 0.5066839022491088,
+    "load_factor": 0.8655703944924145,
+    "stockout_duration": 7.033573169725074,
+    "score": 0.9972963261725989,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs_stock": {
+    "objective": -633.0885326094585,
+    "service_level": 0.807045465133273,
+    "distance": 156.3402103593218,
+    "restocks": 21.307261965624594,
+    "proactive_share": 0.5066839022491088,
+    "load_factor": 0.8655703944924144,
+    "stockout_duration": 7.0335731697250745,
+    "score": 0.9972963261725989,
+    "optimal_for_objective": 1.0
+   }
+  },
+  "gamma": {
+   "0.8": {
+    "objective": -657.6759880892423,
+    "score": 0.9853971017406814,
+    "service_level": 0.7991776050060555,
+    "distance": 150.44324108620134
+   },
+   "0.9": {
+    "objective": -636.2103178043023,
+    "score": 0.9957855223119786,
+    "service_level": 0.8059276934158541,
+    "distance": 151.78936735035518
+   },
+   "0.95": {
+    "objective": -633.0885326094586,
+    "score": 0.9972963261725989,
+    "service_level": 0.807045465133273,
+    "distance": 156.34021035932182
+   },
+   "0.98": {
+    "objective": -630.0004388161065,
+    "score": 0.9987908249077005,
+    "service_level": 0.8080080573525845,
+    "distance": 156.2622234437688
+   },
+   "0.99": {
+    "objective": -630.0004388161062,
+    "score": 0.9987908249077008,
+    "service_level": 0.8080080573525845,
+    "distance": 156.2622234437688
+   }
+  },
+  "frontier": [
+   {
+    "move_cost": 0.0,
+    "service_level": 0.8070454651332729,
+    "distance": 156.34021035932182
+   },
+   {
+    "move_cost": 0.05,
+    "service_level": 0.8070454651332729,
+    "distance": 156.34021035932182
+   },
+   {
+    "move_cost": 0.1,
+    "service_level": 0.807045465133273,
+    "distance": 156.34021035932182
+   },
+   {
+    "move_cost": 0.2,
+    "service_level": 0.8061428346783153,
+    "distance": 151.7631842231799
+   },
+   {
+    "move_cost": 0.5,
+    "service_level": 0.8061428346783153,
+    "distance": 151.7631842231799
+   },
+   {
+    "move_cost": 1.0,
+    "service_level": 0.8071039362142763,
+    "distance": 151.6598043543297
+   },
+   {
+    "move_cost": 2.0,
+    "service_level": 0.7986926296891806,
+    "distance": 147.09524551356608
+   },
+   {
+    "move_cost": 3.0,
+    "service_level": 0.7943093320444568,
+    "distance": 145.06421161350872
+   },
+   {
+    "move_cost": 4.0,
+    "service_level": 0.7873908382508635,
+    "distance": 143.66962625718102
+   },
+   {
+    "move_cost": 6.0,
+    "service_level": 0.7124826411953591,
+    "distance": 128.04017741401083
+   },
+   {
+    "move_cost": 8.0,
+    "service_level": 0.16033877006211328,
+    "distance": 3.9999999999999973
+   }
+  ],
+  "service_bound": 0.9833333333333334
+ },
+ {
+  "layout": 6,
+  "shelves": [
+   [
+    1,
+    3
+   ],
+   [
+    2,
+    1
+   ]
+  ],
+  "n_states": 768,
+  "vi_pi": {
+   "vi_sweeps": 471,
+   "vi_seconds": 0.02616596221923828,
+   "pi_iterations": 16,
+   "pi_seconds": 0.04807925224304199,
+   "max_value_gap": 1.8173835769630386e-09,
+   "same_action": 0.92578125,
+   "pi_action_optimal_for_vi": 1.0,
+   "states_with_ties": 298
+  },
+  "finite_horizon_optimum": -468.12914613971594,
+  "random": {
+   "objective": -2684.92962182093,
+   "service_level": 0.16362243960953127,
+   "distance": 85.21428571428507,
+   "restocks": 1.2135432148195717,
+   "proactive_share": 0.14261923977078217,
+   "load_factor": 0.9473209588322506,
+   "stockout_duration": 112.24322884081607
+  },
+  "rewards": {
+   "proposal": {
+    "objective": -482.71500441857967,
+    "service_level": 0.854063520903908,
+    "distance": 157.18271311085425,
+    "restocks": 23.595408597868754,
+    "proactive_share": 0.5962550457624268,
+    "load_factor": 0.8355646796451626,
+    "stockout_duration": 5.915288639194304,
+    "score": 0.9934203107411452,
+    "optimal_for_objective": 0.94921875
+   },
+   "proposal without closer bonus": {
+    "objective": -481.9588531563455,
+    "service_level": 0.8541533954714817,
+    "distance": 152.4971866508689,
+    "restocks": 23.95912703027537,
+    "proactive_share": 0.6058233946492483,
+    "load_factor": 0.8230279401817742,
+    "stockout_duration": 5.96063163999171,
+    "score": 0.9937614110208183,
+    "optimal_for_objective": 0.9453125
+   },
+   "objective + restock bonus": {
+    "objective": -481.9588531563455,
+    "service_level": 0.8541533954714817,
+    "distance": 152.4971866508689,
+    "restocks": 23.95912703027537,
+    "proactive_share": 0.6058233946492483,
+    "load_factor": 0.8230279401817742,
+    "stockout_duration": 5.96063163999171,
+    "score": 0.9937614110208183,
+    "optimal_for_objective": 0.9453125
+   },
+   "objective + closer bonus": {
+    "objective": -480.47081181324086,
+    "service_level": 0.8547639923433429,
+    "distance": 157.155873119381,
+    "restocks": 23.298375512560455,
+    "proactive_share": 0.5921560311831505,
+    "load_factor": 0.8468654884669033,
+    "stockout_duration": 5.902200844701292,
+    "score": 0.9944326673469644,
+    "optimal_for_objective": 0.96484375
+   },
+   "objective": {
+    "objective": -476.25396498884,
+    "service_level": 0.8558691894840409,
+    "distance": 150.35371337771068,
+    "restocks": 23.38552274810155,
+    "proactive_share": 0.596754796613978,
+    "load_factor": 0.8448533749864943,
+    "stockout_duration": 5.901345909355531,
+    "score": 0.9963348894326508,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs": {
+    "objective": -476.2539649888399,
+    "service_level": 0.855869189484041,
+    "distance": 150.35371337771068,
+    "restocks": 23.38552274810155,
+    "proactive_share": 0.596754796613978,
+    "load_factor": 0.8448533749864943,
+    "stockout_duration": 5.9013459093555305,
+    "score": 0.9963348894326508,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs_stock": {
+    "objective": -476.2539649888399,
+    "service_level": 0.855869189484041,
+    "distance": 150.35371337771068,
+    "restocks": 23.38552274810155,
+    "proactive_share": 0.596754796613978,
+    "load_factor": 0.8448533749864943,
+    "stockout_duration": 5.90134590935553,
+    "score": 0.9963348894326508,
+    "optimal_for_objective": 1.0
+   }
+  },
+  "gamma": {
+   "0.8": {
+    "objective": -491.6427373009719,
+    "score": 0.989393005180572,
+    "service_level": 0.8509013508154946,
+    "distance": 145.27059910554453
+   },
+   "0.9": {
+    "objective": -479.2429481504658,
+    "score": 0.9949865573683013,
+    "service_level": 0.8548525307885232,
+    "distance": 147.71046673740068
+   },
+   "0.95": {
+    "objective": -476.25396498884,
+    "score": 0.9963348894326508,
+    "service_level": 0.8558691894840409,
+    "distance": 150.35371337771068
+   },
+   "0.98": {
+    "objective": -475.95486779195767,
+    "score": 0.9964698123542955,
+    "service_level": 0.8560070654405548,
+    "distance": 151.77477201733205
+   },
+   "0.99": {
+    "objective": -471.1562130526453,
+    "score": 0.9986344883330109,
+    "service_level": 0.85749736711413,
+    "distance": 151.47787817861428
+   }
+  },
+  "frontier": [
+   {
+    "move_cost": 0.0,
+    "service_level": 0.8559814442843937,
+    "distance": 151.77800695837874
+   },
+   {
+    "move_cost": 0.05,
+    "service_level": 0.8559814442843937,
+    "distance": 151.77800695837874
+   },
+   {
+    "move_cost": 0.1,
+    "service_level": 0.8558691894840409,
+    "distance": 150.35371337771068
+   },
+   {
+    "move_cost": 0.2,
+    "service_level": 0.8558691894840409,
+    "distance": 150.35371337771068
+   },
+   {
+    "move_cost": 0.5,
+    "service_level": 0.8539756155583655,
+    "distance": 145.1567848741385
+   },
+   {
+    "move_cost": 1.0,
+    "service_level": 0.8539756155583655,
+    "distance": 145.1567848741385
+   },
+   {
+    "move_cost": 2.0,
+    "service_level": 0.8401922789774964,
+    "distance": 134.6031514599643
+   },
+   {
+    "move_cost": 3.0,
+    "service_level": 0.8386507068371536,
+    "distance": 134.28330374927052
+   },
+   {
+    "move_cost": 4.0,
+    "service_level": 0.833319925866934,
+    "distance": 133.25457300784836
+   },
+   {
+    "move_cost": 6.0,
+    "service_level": 0.7695001361925311,
+    "distance": 120.75927590411699
+   },
+   {
+    "move_cost": 8.0,
+    "service_level": 0.6202495427970509,
+    "distance": 90.79044248853168
+   }
+  ],
+  "service_bound": 1.0
+ },
+ {
+  "layout": 7,
+  "shelves": [
+   [
+    3,
+    2
+   ],
+   [
+    2,
+    2
+   ]
+  ],
+  "n_states": 768,
+  "vi_pi": {
+   "vi_sweeps": 480,
+   "vi_seconds": 0.026734113693237305,
+   "pi_iterations": 17,
+   "pi_seconds": 0.05069899559020996,
+   "max_value_gap": 1.8800392354023643e-09,
+   "same_action": 0.9296875,
+   "pi_action_optimal_for_vi": 1.0,
+   "states_with_ties": 316
+  },
+  "finite_horizon_optimum": -733.8564700847562,
+  "random": {
+   "objective": -2699.871338400879,
+   "service_level": 0.1589531531782964,
+   "distance": 85.2142857142851,
+   "restocks": 1.0708640495844248,
+   "proactive_share": 0.11191651234604394,
+   "load_factor": 0.9612972490508901,
+   "stockout_duration": 116.19791966723207
+  },
+  "rewards": {
+   "proposal": {
+    "objective": -757.7105754786722,
+    "service_level": 0.768318387954357,
+    "distance": 163.2941693261481,
+    "restocks": 19.811722015020983,
+    "proactive_share": 0.4483311145374746,
+    "load_factor": 0.8775327483677634,
+    "stockout_duration": 8.058886876770103,
+    "score": 0.9878667726382219,
+    "optimal_for_objective": 0.9830729166666666
+   },
+   "proposal without closer bonus": {
+    "objective": -774.5581323667934,
+    "service_level": 0.7628345174863307,
+    "distance": 156.28588323051565,
+    "restocks": 20.70619242825361,
+    "proactive_share": 0.461493325886528,
+    "load_factor": 0.8332036737091549,
+    "stockout_duration": 8.088731629032017,
+    "score": 0.9792973781948567,
+    "optimal_for_objective": 0.9895833333333334
+   },
+   "objective + restock bonus": {
+    "objective": -774.5581323667934,
+    "service_level": 0.7628345174863307,
+    "distance": 156.28588323051565,
+    "restocks": 20.70619242825361,
+    "proactive_share": 0.461493325886528,
+    "load_factor": 0.8332036737091549,
+    "stockout_duration": 8.088731629032017,
+    "score": 0.9792973781948567,
+    "optimal_for_objective": 0.9895833333333334
+   },
+   "objective + closer bonus": {
+    "objective": -756.8997208139136,
+    "service_level": 0.7685799996149687,
+    "distance": 163.55719581813617,
+    "restocks": 19.540377356478565,
+    "proactive_share": 0.44006796819858046,
+    "load_factor": 0.8899295489868058,
+    "stockout_duration": 8.041477518389048,
+    "score": 0.9882792083109251,
+    "optimal_for_objective": 0.9869791666666666
+   },
+   "objective": {
+    "objective": -755.6292217500293,
+    "service_level": 0.7687709033573019,
+    "distance": 156.96112493395265,
+    "restocks": 19.609660654639317,
+    "proactive_share": 0.44274782511213295,
+    "load_factor": 0.8869808413688235,
+    "stockout_duration": 8.044363571827166,
+    "score": 0.9889254389597159,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs": {
+    "objective": -755.6292217500293,
+    "service_level": 0.7687709033573019,
+    "distance": 156.9611249339526,
+    "restocks": 19.60966065463932,
+    "proactive_share": 0.4427478251121329,
+    "load_factor": 0.8869808413688233,
+    "stockout_duration": 8.044363571827164,
+    "score": 0.9889254389597159,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs_stock": {
+    "objective": -755.6292217500293,
+    "service_level": 0.7687709033573019,
+    "distance": 156.9611249339526,
+    "restocks": 19.609660654639317,
+    "proactive_share": 0.44274782511213295,
+    "load_factor": 0.8869808413688235,
+    "stockout_duration": 8.044363571827166,
+    "score": 0.9889254389597159,
+    "optimal_for_objective": 1.0
+   }
+  },
+  "gamma": {
+   "0.8": {
+    "objective": -771.6267724959021,
+    "score": 0.98078839431998,
+    "service_level": 0.76371920144917,
+    "distance": 155.282171332463
+   },
+   "0.9": {
+    "objective": -757.1487660643522,
+    "score": 0.9881525331496879,
+    "service_level": 0.768275030103191,
+    "distance": 156.28862394563274
+   },
+   "0.95": {
+    "objective": -755.6292217500293,
+    "score": 0.9889254389597159,
+    "service_level": 0.7687709033573019,
+    "distance": 156.96112493395265
+   },
+   "0.98": {
+    "objective": -755.6292217500293,
+    "score": 0.9889254389597159,
+    "service_level": 0.7687709033573019,
+    "distance": 156.96112493395265
+   },
+   "0.99": {
+    "objective": -740.3355710652439,
+    "score": 0.9967044496535079,
+    "service_level": 0.7735485852578197,
+    "distance": 156.91043890267008
+   }
+  },
+  "frontier": [
+   {
+    "move_cost": 0.0,
+    "service_level": 0.768800623878031,
+    "distance": 157.5260198248093
+   },
+   {
+    "move_cost": 0.05,
+    "service_level": 0.7687709033573019,
+    "distance": 156.96112493395265
+   },
+   {
+    "move_cost": 0.1,
+    "service_level": 0.7687709033573019,
+    "distance": 156.96112493395265
+   },
+   {
+    "move_cost": 0.2,
+    "service_level": 0.7687008166260714,
+    "distance": 156.4526037680261
+   },
+   {
+    "move_cost": 0.5,
+    "service_level": 0.7687008166260714,
+    "distance": 156.4526037680261
+   },
+   {
+    "move_cost": 1.0,
+    "service_level": 0.768275030103191,
+    "distance": 156.28862394563274
+   },
+   {
+    "move_cost": 2.0,
+    "service_level": 0.7659464372025441,
+    "distance": 155.66152362266288
+   },
+   {
+    "move_cost": 3.0,
+    "service_level": 0.752941185692994,
+    "distance": 151.30943406069076
+   },
+   {
+    "move_cost": 4.0,
+    "service_level": 0.7347298974489679,
+    "distance": 146.94615935942278
+   },
+   {
+    "move_cost": 6.0,
+    "service_level": 0.6195976304590141,
+    "distance": 117.9204921059802
+   },
+   {
+    "move_cost": 8.0,
+    "service_level": 0.16004457510907666,
+    "distance": 4.349775365083699
+   }
+  ],
+  "service_bound": 0.9166666666666667
+ },
+ {
+  "layout": 8,
+  "shelves": [
+   [
+    1,
+    1
+   ],
+   [
+    2,
+    3
+   ]
+  ],
+  "n_states": 768,
+  "vi_pi": {
+   "vi_sweeps": 469,
+   "vi_seconds": 0.026056766510009766,
+   "pi_iterations": 16,
+   "pi_seconds": 0.04714322090148926,
+   "max_value_gap": 1.8458479189575883e-09,
+   "same_action": 0.8893229166666666,
+   "pi_action_optimal_for_vi": 1.0,
+   "states_with_ties": 320
+  },
+  "finite_horizon_optimum": -434.75833579281124,
+  "random": {
+   "objective": -2678.623694800049,
+   "service_level": 0.16559304180355638,
+   "distance": 85.21428571428507,
+   "restocks": 1.2840341157349628,
+   "proactive_share": 0.16622503856010448,
+   "load_factor": 0.9353298870445428,
+   "stockout_duration": 110.97749704569601
+  },
+  "rewards": {
+   "proposal": {
+    "objective": -452.0272533519533,
+    "service_level": 0.8635924381540393,
+    "distance": 155.23055444878895,
+    "restocks": 24.548790993427552,
+    "proactive_share": 0.6761386715684878,
+    "load_factor": 0.8130855370008676,
+    "stockout_duration": 6.600818337461046,
+    "score": 0.9923039421729017,
+    "optimal_for_objective": 0.9700520833333334
+   },
+   "proposal without closer bonus": {
+    "objective": -446.62407918466647,
+    "service_level": 0.865177691129909,
+    "distance": 151.92690800375595,
+    "restocks": 24.688998836202202,
+    "proactive_share": 0.6800436226336845,
+    "load_factor": 0.8101617259677402,
+    "stockout_duration": 6.566652088577091,
+    "score": 0.9947119182778841,
+    "optimal_for_objective": 0.9778645833333334
+   },
+   "objective + restock bonus": {
+    "objective": -446.62407918466647,
+    "service_level": 0.865177691129909,
+    "distance": 151.92690800375595,
+    "restocks": 24.688998836202202,
+    "proactive_share": 0.6800436226336845,
+    "load_factor": 0.8101617259677402,
+    "stockout_duration": 6.566652088577091,
+    "score": 0.9947119182778841,
+    "optimal_for_objective": 0.9778645833333334
+   },
+   "objective + closer bonus": {
+    "objective": -451.2009107968865,
+    "service_level": 0.8638525027527373,
+    "distance": 155.2891960564587,
+    "restocks": 24.478817444228056,
+    "proactive_share": 0.6748974259546157,
+    "load_factor": 0.8156567910080623,
+    "stockout_duration": 6.582502773920874,
+    "score": 0.9926722096145063,
+    "optimal_for_objective": 0.9700520833333334
+   },
+   "objective": {
+    "objective": -436.18558788574,
+    "service_level": 0.8684284832357781,
+    "distance": 151.5673424022978,
+    "restocks": 23.849068084792172,
+    "proactive_share": 0.6674565554380807,
+    "load_factor": 0.8418077574405862,
+    "stockout_duration": 6.389714837870511,
+    "score": 0.9993639314911655,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs": {
+    "objective": -436.18558788574,
+    "service_level": 0.868428483235778,
+    "distance": 151.5673424022978,
+    "restocks": 23.849068084792172,
+    "proactive_share": 0.6674565554380807,
+    "load_factor": 0.8418077574405863,
+    "stockout_duration": 6.389714837870513,
+    "score": 0.9993639314911655,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs_stock": {
+    "objective": -436.1855878857401,
+    "service_level": 0.868428483235778,
+    "distance": 151.56734240229778,
+    "restocks": 23.849068084792172,
+    "proactive_share": 0.6674565554380807,
+    "load_factor": 0.8418077574405863,
+    "stockout_duration": 6.389714837870513,
+    "score": 0.9993639314911655,
+    "optimal_for_objective": 1.0
+   }
+  },
+  "gamma": {
+   "0.8": {
+    "objective": -485.71944475275956,
+    "score": 0.9772886957074397,
+    "service_level": 0.8527209690668163,
+    "distance": 144.2654576657169
+   },
+   "0.9": {
+    "objective": -438.3016689461415,
+    "score": 0.9984208797826898,
+    "service_level": 0.867637207253334,
+    "distance": 147.40732156810287
+   },
+   "0.95": {
+    "objective": -436.18558788574,
+    "score": 0.9993639314911655,
+    "service_level": 0.8684284832357781,
+    "distance": 151.5673424022978
+   },
+   "0.98": {
+    "objective": -435.8513254211514,
+    "score": 0.9995128987468196,
+    "service_level": 0.8685318786989255,
+    "distance": 151.53337257712832
+   },
+   "0.99": {
+    "objective": -435.8380625523285,
+    "score": 0.9995188094708163,
+    "service_level": 0.8685359870394627,
+    "distance": 151.53221078608883
+   }
+  },
+  "frontier": [
+   {
+    "move_cost": 0.0,
+    "service_level": 0.868417149857227,
+    "distance": 151.56849311479897
+   },
+   {
+    "move_cost": 0.05,
+    "service_level": 0.868417149857227,
+    "distance": 151.56849311479897
+   },
+   {
+    "move_cost": 0.1,
+    "service_level": 0.8684284832357781,
+    "distance": 151.5673424022978
+   },
+   {
+    "move_cost": 0.2,
+    "service_level": 0.8678666347837906,
+    "distance": 147.360432125496
+   },
+   {
+    "move_cost": 0.5,
+    "service_level": 0.8675056663830355,
+    "distance": 146.03533107841477
+   },
+   {
+    "move_cost": 1.0,
+    "service_level": 0.8656563298688812,
+    "distance": 142.97217738028237
+   },
+   {
+    "move_cost": 2.0,
+    "service_level": 0.8560157344283499,
+    "distance": 134.88539350137842
+   },
+   {
+    "move_cost": 3.0,
+    "service_level": 0.8469702506270539,
+    "distance": 131.31819776581239
+   },
+   {
+    "move_cost": 4.0,
+    "service_level": 0.8305365794837842,
+    "distance": 126.99455248607654
+   },
+   {
+    "move_cost": 6.0,
+    "service_level": 0.7306090323191938,
+    "distance": 101.2677207275664
+   },
+   {
+    "move_cost": 8.0,
+    "service_level": 0.5239896608663739,
+    "distance": 42.55201961274528
+   }
+  ],
+  "service_bound": 1.0
+ },
+ {
+  "layout": 9,
+  "shelves": [
+   [
+    1,
+    2
+   ],
+   [
+    3,
+    2
+   ]
+  ],
+  "n_states": 768,
+  "vi_pi": {
+   "vi_sweeps": 476,
+   "vi_seconds": 0.026359081268310547,
+   "pi_iterations": 15,
+   "pi_seconds": 0.04500889778137207,
+   "max_value_gap": 1.8154935332859168e-09,
+   "same_action": 0.9192708333333334,
+   "pi_action_optimal_for_vi": 1.0,
+   "states_with_ties": 282
+  },
+  "finite_horizon_optimum": -573.6434587420308,
+  "random": {
+   "objective": -2689.1230122159022,
+   "service_level": 0.162312005111102,
+   "distance": 85.21428571428513,
+   "restocks": 1.1723977188386632,
+   "proactive_share": 0.13245603074146267,
+   "load_factor": 0.9518124094460988,
+   "stockout_duration": 113.25823810465675
+  },
+  "rewards": {
+   "proposal": {
+    "objective": -586.4877771170443,
+    "service_level": 0.8217047177590435,
+    "distance": 159.4287394598357,
+    "restocks": 22.254009167163687,
+    "proactive_share": 0.6278976853190664,
+    "load_factor": 0.8456961093479193,
+    "stockout_duration": 8.197442210387274,
+    "score": 0.9939284128962999,
+    "optimal_for_objective": 0.9453125
+   },
+   "proposal without closer bonus": {
+    "objective": -611.861961294977,
+    "service_level": 0.8135063437075619,
+    "distance": 150.82261159175232,
+    "restocks": 23.445924390034342,
+    "proactive_share": 0.6390876501042266,
+    "load_factor": 0.7939028266664051,
+    "stockout_duration": 8.380707453135289,
+    "score": 0.9819338823246073,
+    "optimal_for_objective": 0.94921875
+   },
+   "objective + restock bonus": {
+    "objective": -611.861961294977,
+    "service_level": 0.8135063437075619,
+    "distance": 150.82261159175232,
+    "restocks": 23.445924390034342,
+    "proactive_share": 0.6390876501042266,
+    "load_factor": 0.7939028266664051,
+    "stockout_duration": 8.380707453135289,
+    "score": 0.9819338823246073,
+    "optimal_for_objective": 0.94921875
+   },
+   "objective + closer bonus": {
+    "objective": -608.764480374201,
+    "service_level": 0.814747939304156,
+    "distance": 159.57886147500213,
+    "restocks": 21.76455573638603,
+    "proactive_share": 0.5255299674214939,
+    "load_factor": 0.856758041959048,
+    "stockout_duration": 6.8790524427312585,
+    "score": 0.9833980803196621,
+    "optimal_for_objective": 0.97265625
+   },
+   "objective": {
+    "objective": -602.986628343109,
+    "service_level": 0.8163837287590037,
+    "distance": 154.14560371920663,
+    "restocks": 21.509249162766253,
+    "proactive_share": 0.5198910352498437,
+    "load_factor": 0.8687695970959194,
+    "stockout_duration": 6.820889294060544,
+    "score": 0.9861293059756151,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs": {
+    "objective": -602.986628343109,
+    "service_level": 0.8163837287590037,
+    "distance": 154.14560371920663,
+    "restocks": 21.509249162766253,
+    "proactive_share": 0.5198910352498437,
+    "load_factor": 0.8687695970959193,
+    "stockout_duration": 6.820889294060542,
+    "score": 0.9861293059756151,
+    "optimal_for_objective": 1.0
+   },
+   "pbrs_stock": {
+    "objective": -602.986628343109,
+    "service_level": 0.8163837287590037,
+    "distance": 154.14560371920663,
+    "restocks": 21.509249162766253,
+    "proactive_share": 0.5198910352498436,
+    "load_factor": 0.868769597095919,
+    "stockout_duration": 6.820889294060543,
+    "score": 0.9861293059756151,
+    "optimal_for_objective": 1.0
+   }
+  },
+  "gamma": {
+   "0.8": {
+    "objective": -627.3005762513391,
+    "score": 0.9746359555112708,
+    "service_level": 0.8086480890486095,
+    "distance": 149.74461206889487
+   },
+   "0.9": {
+    "objective": -610.9488843548838,
+    "score": 0.9823654993253926,
+    "service_level": 0.8138161373359777,
+    "distance": 151.6052383001242
+   },
+   "0.95": {
+    "objective": -602.986628343109,
+    "score": 0.9861293059756151,
+    "service_level": 0.8163837287590037,
+    "distance": 154.14560371920663
+   },
+   "0.98": {
+    "objective": -576.250634115826,
+    "score": 0.9987675724071576,
+    "service_level": 0.8248176858575391,
+    "distance": 156.67228859951237
+   },
+   "0.99": {
+    "objective": -576.2431477753478,
+    "score": 0.998771111245652,
+    "service_level": 0.82482001024979,
+    "distance": 156.6718057467591
+   }
+  },
+  "frontier": [
+   {
+    "move_cost": 0.0,
+    "service_level": 0.8167106561448151,
+    "distance": 157.3048847328088
+   },
+   {
+    "move_cost": 0.05,
+    "service_level": 0.816659117886908,
+    "distance": 156.5948036903045
+   },
+   {
+    "move_cost": 0.1,
+    "service_level": 0.8163837287590037,
+    "distance": 154.14560371920663
+   },
+   {
+    "move_cost": 0.2,
+    "service_level": 0.8163837287590037,
+    "distance": 154.14560371920663
+   },
+   {
+    "move_cost": 0.5,
+    "service_level": 0.8153039551013661,
+    "distance": 150.97050669203986
+   },
+   {
+    "move_cost": 1.0,
+    "service_level": 0.8153039551013661,
+    "distance": 150.97050669203986
+   },
+   {
+    "move_cost": 2.0,
+    "service_level": 0.8056334907643322,
+    "distance": 145.55914472480214
+   },
+   {
+    "move_cost": 3.0,
+    "service_level": 0.7995609041366414,
+    "distance": 143.55171982562314
+   },
+   {
+    "move_cost": 4.0,
+    "service_level": 0.7875913896266615,
+    "distance": 140.8100616295529
+   },
+   {
+    "move_cost": 6.0,
+    "service_level": 0.665231199521042,
+    "distance": 105.5907877977583
+   },
+   {
+    "move_cost": 8.0,
+    "service_level": 0.5007918575841488,
+    "distance": 60.645805711525185
+   }
+  ],
+  "service_bound": 0.9895833333333333
+ }
+]

@@ -1,0 +1,60 @@
+\section{What the Exact Optimum Shows}
+\label{sec:planning}
+
+\subsection{Value and policy iteration}
+Value iteration (VI) on the objective with $\gamma=0.95$ converges to a change below $10^{-10}$ in 441--487 sweeps, about 0.05\,s per layout. Policy iteration (PI), with exact policy evaluation by a linear solve, stops after 13--18 improvement steps. The two value functions agree to $2\times10^{-9}$. Their greedy actions coincide in only 88--96\% of states, however, which matches the unexplained 88.9\% reported in Review~II. The explanation is ties: between 242 and 331 of the 768 states have two or more actions whose values differ by less than $10^{-6}$, usually two moves of equal length toward the same shelf. Counting any optimal action as agreement, PI's policy is optimal for VI in every state of every layout (Table~\ref{tab:layouts}).
+
+\begin{table}[t]
+\centering
+\caption{Exact solution of each layout under the objective. $SL^\ast$: optimal service level; bound: travel-time bound (Sec.~\ref{sec:bound}); travel: moves per run under $\pi^\ast$; agree: share of states where VI and PI pick the same action; ties: states with more than one optimal action.}
+\label{tab:layouts}
+\setlength{\tabcolsep}{3pt}
+\footnotesize
+\begin{tabular}{@{}clcccccccc@{}}
+\toprule
+L & shelves & $SL^\ast$ & bound & travel & $SL_{\text{rand}}$ & VI & PI & agree & ties\\
+\midrule
+\inputrows{tables/dp_layouts.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Does the training reward change what is optimal?}
+\label{sec:audit}
+For each training reward the optimal policy was computed and then scored on the objective (Table~\ref{tab:audit}). Three findings follow.
+
+\emph{The closer bonus does pay for itself in travel.} The proposal reward's optimal policy walks 6.1\% further than the objective's on average and 16.8\% further on layout~2. Removing only the closer bonus brings travel back to within 0.3\% of the objective's optimum on average (between $-3.1$\% and $+4.1$\% on individual layouts), and adding only the closer bonus to the objective reproduces the extra travel. The loop described in Section~\ref{sec:problem} therefore matters in practice: an optimal agent under the proposal reward takes it whenever the shelves can spare the time.
+
+\emph{The damage to the objective is small.} The proposal reward's optimal policy still reaches a normalised score of 0.992, against 0.995 for the objective's own optimal policy. The stockout penalty dominates every other term, so an agent cannot afford to loop when a shelf is about to run out. The restock bonus alone barely changes travel, but it makes the optimal action wrong in about 3\% of states: it rewards a top-up for its own sake rather than for the sale it protects. The constant step cost and the invalid-action penalty change nothing, as rows 2 and 3 of Table~\ref{tab:audit} are identical.
+
+\emph{Potential-based shaping is exactly invariant here.} Under both PBRS-d and PBRS-ds the greedy action of the shaped optimum is optimal for the objective in all 768 states of all ten layouts, and the shaped action values equal $Q^\ast-\Phi$ to machine precision, as the theorem predicts~\cite{ng1999}.
+
+\begin{table}[t]
+\centering
+\caption{Optimal policy of each training reward, scored on the objective (means over 10 layouts). Extra travel is relative to the objective's optimum, with the range over layouts; the last column is the share of states in which the policy's action is optimal for the objective.}
+\label{tab:audit}
+\setlength{\tabcolsep}{3pt}
+\footnotesize
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+optimal policy of & score & $SL$ & travel & extra travel (\%) & opt.\ (\%)\\
+\midrule
+\inputrows{tables/dp_rewards.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{The discount factor}
+The quantity of interest is the undiscounted 200-step sum, so $\gamma$ is a modelling choice, not part of the problem. Solving the stationary problem for several discounts and scoring each policy against $J^\ast_T$ gives mean scores of 0.983 ($\gamma=0.8$), 0.993 (0.9), 0.995 (0.95), 0.996 (0.98) and 0.999 (0.99). A discount of 0.95, an effective horizon of about 20 steps or two to three round trips, gives up half a percent of the achievable improvement and is used for every learner. A larger discount would recover most of that half percent but would lengthen the horizon over which the learners must propagate values, which Section~\ref{sec:why} identifies as their main difficulty.
+
+\subsection{Service level against travel}
+\label{sec:frontier}
+Re-solving with move costs between 0 and 8 traces the exact frontier between availability and travel (Fig.~\ref{fig:frontier}). At the chosen price of 0.1 the optimum sits on the flat part of the frontier. On layout~2, raising the price to 0.5 cuts travel from 120 to 107 moves per run while service falls from 0.969 to 0.968. If robot energy has a real cost to the store, the proposal's weight undervalues it; the frontier lets that decision be taken knowingly.
+
+\subsection{A bound from travel time}
+\label{sec:bound}
+Each unit sold from shelf $i$ must first be carried there. A reload, trip, restock and return carrying two units takes $2d_i+2$ steps, where $d_i$ is the shelf's distance from the depot, so each delivered unit costs at least $d_i+1$ steps of robot time; splitting a load between shelves is never cheaper per unit. Expected sales from shelf $i$ are at least $pT\,SL_i$ and cannot exceed its initial three units plus what is delivered. Hence
+\begin{equation}
+\sum_i (d_i+1)\,\max\bigl(0,\; pT\,SL_i-3\bigr) \le T + d_{\max} + 2 ,
+\end{equation}
+where the slack allows for the robot starting loaded and not returning after its last trip. Maximising the mean $SL_i$ under this constraint is a small linear program. The bound binds only when both shelves are far from the depot (Table~\ref{tab:layouts}). On layout~4, with shelves five and six cells away, no policy can exceed a service level of 0.807 and the optimum reaches 0.683. Elsewhere the bound is 0.98 or more, and what limits the optimum is the randomness of demand, not the robot's capacity.

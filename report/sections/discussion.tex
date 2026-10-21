@@ -1,0 +1,22 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Corrections to the earlier reviews}
+Measuring every policy against the optimum, on every layout, with identical budgets, changed several conclusions of Review~II. They are listed here so the two reports can be read together.
+
+\emph{The PPO ``overfitting'' case.} Review~II reported a PPO run that reached 81\% completion during training but 18.6\% on held-out demand, and attributed the gap to overfitting a demand sequence. That explanation cannot hold, since every training run already used a fresh demand seed. The training curve was computed from the sampled stochastic policy, whereas the held-out figure came from its argmax, and the argmax of an undertrained stochastic policy can be very different from the policy itself. With both forms evaluated exactly, PPO's greedy and stochastic policies here differ by at most 0.04 in normalised score on average, although by up to 0.62 on a single layout, and REINFORCE's argmax scores 0.27--0.41 below its own stochastic policy (Section~\ref{sec:stochastic}).
+
+\emph{REINFORCE's energy result.} REINFORCE was trained on 60-step runs while every other method used 200, so its travel and return figures were not comparable; its apparent energy efficiency reflected shorter runs and a policy that barely moved. All learners now use identical runs.
+
+\emph{The 88.9\% VI/PI agreement} is fully explained by ties (Section~\ref{sec:planning}); the two methods agree exactly.
+
+\emph{The time limit.} Review~II's DQN treated step 200 as a terminal state, and its Monte Carlo and $n$-step agents ignored what lay beyond it; both bias the values of late states.
+
+\emph{Layouts and seeds.} Each training seed was also a different store, so seed-to-seed variance mixed algorithmic noise with layout difficulty, and the dynamic-programming reference existed for one layout only. Per-layout optima and the normalised score separate the two.
+
+\emph{The tabular state} carried a time-of-day bit that no part of the dynamics reads; it doubled the table without adding information.
+
+\subsection{Limitations}
+The store is small by design; that is what makes an exact optimum available. The tabular methods would not scale to a realistic store, and the absolute scores of the deep agents on this small problem say little about their behaviour on a large one. What should carry over is the method: build a version of the problem small enough to solve, and use it to check reward design and learner behaviour before scaling up.
+
+Each layout received one training run per configuration, so the intervals combine layout and seed variation; with ten layouts this is enough to separate the large effects reported here, but not differences of a few hundredths. The deep agents used published default hyperparameters without tuning, which is fair across methods but probably leaves some performance unrealised for each. Finally, the best initial value was located with the help of the exact optimum; in a problem that cannot be solved, it would have to be estimated, for example from the returns of a simple hand-written policy, and that estimate was not tested here.

@@ -1,0 +1,18 @@
+\section{Introduction}
+\label{sec:intro}
+
+A shelf that runs empty loses sales until somebody refills it. A restocking robot that decides for itself where to go and when to refill can close that gap, but only if it learns a good policy, and a reinforcement-learning agent learns whatever its reward pays for. The reward is usually designed by hand, with extra terms meant to speed learning up: a bonus for restocking, a bonus for heading toward the emptiest shelf. Whether such terms change what the agent ultimately learns, and how close the agent comes to the best possible policy, are questions that most applied studies cannot answer, because their problems are too large to solve exactly.
+
+This project takes the opposite route. The store, a $4\times4$ grid with a depot, two shelves and a robot that carries two units, is deliberately small enough that the optimal policy can be computed exactly by dynamic programming~\cite{bellman1957,howard1960,puterman1994}. That optimum is then used as a measuring instrument for everything else. Every learned policy, whether a Q-table or a neural network, is evaluated exactly against it, with no sampling noise, on ten store layouts of very different difficulty.
+
+The study builds on the project's earlier reviews, which compared ten algorithm configurations on the same task. Re-examining that work against the exact optimum changed several of its conclusions (Section~\ref{sec:discussion}) and widened the question. Besides asking which algorithm scores highest, this report asks what the reward does to the optimum and why each learner stops where it does.
+
+The contributions are as follows.
+\begin{itemize}
+\item \emph{An exact reference for a restocking MDP.} The robot's state is reduced to a 768-state Markov tuple, and an exact model is validated against the simulator. Any policy can then be evaluated exactly and scored on a common 0--1 scale across layouts (Section~\ref{sec:problem}).
+\item \emph{An exact audit of the reward.} The proposal's bonus for approaching the emptiest shelf is not potential-based, and its optimal policy does exploit the resulting loop, walking 6\% further on average and up to 17\%, at a cost of only 0.3\% of the objective. Potential-based versions of the same guidance leave the optimum unchanged in every state. The discount factor, the travel price and a travel-time bound on service are examined in the same way (Section~\ref{sec:planning}).
+\item \emph{A controlled comparison of nine learners under four rewards.} All learners receive the same budget, state and evaluation, and the time limit is treated consistently. DQN trained on the proposal reward comes within a few percent of the optimum. Both proposal bonuses help it, and their potential-based forms recover about half of that help (Section~\ref{sec:results}).
+\item \emph{An explanation of the tabular learners' shortfall.} Combining the exact values with Wiewiora's equivalence between shaping and initialisation~\cite{wiewiora2003} shows that the starting Q-value, not the reward, limits the tabular learners. Changing only that value triples Q-Learning's score, and the two failure modes on either side of the best value can be observed directly (Section~\ref{sec:why}).
+\end{itemize}
+
+All code, results and notebooks are available at \repo.

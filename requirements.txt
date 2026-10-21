@@ -1,0 +1,11 @@
+# Versions used to produce every result in the report (Python 3.11.16).
+numpy==2.4.6
+scipy==1.17.1
+torch==2.14.1
+gymnasium==1.4.0
+matplotlib==3.11.2
+pygame==2.6.1          # only for RetailRestockEnv.render()
+# notebooks and tests
+jupyter
+nbconvert
+pytest

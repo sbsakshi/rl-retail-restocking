@@ -1,0 +1,12 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+archive/
+report/*.aux
+report/*.log
+report/*.out
+.claude/
+.pytest_cache/

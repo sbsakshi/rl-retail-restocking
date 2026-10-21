@@ -1,0 +1,41 @@
+\section{Learning Agents and Protocol}
+\label{sec:learning}
+
+\subsection{Agents}
+Nine learners are compared. They are grouped by how they turn experience into an update, because that is the property the results turn on.
+
+\emph{One-step temporal-difference control.} Q-Learning~\cite{watkins1992} moves $Q(s,a)$ toward $r+\gamma\max_{a'}Q(s',a')$ and is off-policy. SARSA~\cite{rummery1994} uses $r+\gamma Q(s',a')$ for the action actually taken next and is on-policy.
+
+\emph{Multi-step and Monte Carlo control.} 4-step Sarsa replaces the one-step target with four observed rewards plus $\gamma^4Q(s_{t+4},a_{t+4})$~\cite{sutton2018}. SARSA($\lambda$) with $\lambda=0.8$ applies every TD error to all recently visited pairs through accumulating eligibility traces, pruned once they fall below $10^{-3}$. Every-visit Monte Carlo control moves $Q$ toward the observed discounted return and never bootstraps inside an episode.
+
+\emph{Function approximation.} DQN~\cite{mnih2015} learns $Q_\theta$ from a replay buffer against a periodically copied target network; Double DQN~\cite{vanhasselt2016} lets the online network choose the next action and the target network evaluate it, to reduce overestimation. REINFORCE with a learned baseline~\cite{williams1992} raises the log-probability of each action in proportion to its return minus a value estimate. PPO~\cite{schulman2017} reuses each batch for several epochs under a clipped probability-ratio objective, with advantages from generalised advantage estimation~\cite{schulman2016}.
+
+\subsection{Shared settings}
+Every learner receives the same budget, 600 runs of 200 steps (120{,}000 environment steps), the same discount $\gamma=0.95$, and the same five-number Markov state. Tabular agents use a $768\times7$ table; all networks have two hidden layers of 64 ReLU units and see the state scaled to $[0,1]$. Value-based agents explore $\varepsilon$-greedily, with $\varepsilon$ falling linearly from 1 to 0.05 over the first 450 runs and then held, so every method ends with the same consolidation phase. Table~\ref{tab:hyper} lists the remaining settings. The DQN and PPO settings are the published defaults of each method~\cite{mnih2015,schulman2017}, scaled to this budget, and were not tuned, so that no algorithm benefits from a larger tuning effort than the others. REINFORCE is the one exception. It has no widely used default, and pooling ten runs per update left only 60 gradient steps in the budget, after which its policy was still at chance level. It therefore uses the textbook single update per run, with the policy learning rate chosen from $\{10^{-3}, 3\cdot10^{-3}, 10^{-2}\}$ on three layouts.
+
+\begin{table}[t]
+\centering
+\caption{Hyperparameters. All learners: 120{,}000 steps, $\gamma=0.95$, same Markov state input.}
+\label{tab:hyper}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{0.6\columnwidth}@{}}
+\toprule
+Tabular (all five) & $\alpha=0.15$ constant, $Q_0=0$, $\varepsilon$: $1\to0.05$\\
+4-step Sarsa / SARSA($\lambda$) & $n=4$ / $\lambda=0.8$, trace cut-off $10^{-3}$\\
+DQN, Double DQN & Adam $5\cdot10^{-4}$, batch 64, buffer 50k,\\
+& target copied every 500 steps, Huber loss\\
+REINFORCE + baseline & Adam $3\cdot10^{-3}$ (policy), $10^{-3}$ (value),\\
+& one update per run, entropy 0.01\\
+PPO & Adam $3\cdot10^{-4}$, rollout 2048, 10 epochs, batch 64,\\
+& clip 0.2, GAE $\lambda=0.95$, entropy 0.01\\
+Networks & 2 $\times$ 64 ReLU; rewards scaled by 0.1 in updates\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{The time limit is not a terminal state}
+Because the store keeps running after step 200, treating the cut as terminal would teach every agent that the last few states of a run are worth nothing, which is false and, since the state does not include the clock, inconsistent with the same states seen earlier in a run. Following Pardo et al.~\cite{pardo2018}, every target that reaches the limit bootstraps from the value of the state the run was cut in: the one-step and trace methods do so naturally, 4-step Sarsa bootstraps its last windows from $Q(s_T,a_T)$, Monte Carlo adds $\gamma^{T-t}Q(s_T,a_T)$ to its returns, REINFORCE adds $\gamma^{T-t}V(s_T)$, PPO's advantage estimate starts from $V(s_T)$, and DQN stores no done flag at all. Review~II's DQN treated the cut as terminal, and its Monte Carlo and $n$-step agents dropped the tail; all three are corrected here.
+
+\subsection{Measurement and statistics}
+Each greedy policy is evaluated exactly (Section~\ref{sec:score}) every 20 runs during training and once at the end. For the two policy-gradient methods both the greedy policy and the stochastic policy they actually learned are evaluated, since the two can behave very differently. Each experiment is replicated over the ten layouts, with one training run per layout; intervals are 95\% $t$-intervals over layouts. Comparisons between training rewards are paired by layout, since the same store and the same random seed are used for each reward, and are tested with a paired $t$-test on the per-layout differences. This follows the advice of Henderson et al.~\cite{henderson2018} and Agarwal et al.~\cite{agarwal2021} to report uncertainty across independent runs, not a single best run.
